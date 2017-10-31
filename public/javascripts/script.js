@@ -7,9 +7,26 @@ $.ajax({
     }
 });
 */
+if($("#status_message").length) {
+    $("#form_register").submit();
+} else {
+    $("#form_login").submit();
+}
+try {
+    $(location.pathname.replace("/", "#")).addClass("selected");
+} catch(err) {}
+
 
 $("#menu li span").on("click", function() {
     location.href = "http://localhost:8888/" + $(this).text();
+});
+$("#menu svg").on("click", function() {
+    if ($(this).hasClass("selected")) {
+        $(this).removeClass("selected");
+    } else {
+        $("#menu svg.selected").removeClass("selected");
+        $(this).addClass("selected");
+    }
 });
 
 

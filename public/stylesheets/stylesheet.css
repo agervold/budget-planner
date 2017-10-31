@@ -30,6 +30,7 @@ html {
     width: 200px;
     margin: 0;
     border-right: 1px solid rgba(200,200,200,.5);
+    overflow: auto;
 }
 
 #menu > li {
@@ -62,6 +63,15 @@ html {
     height: 24px;
     width: 24px;
 }
+#menu svg:hover {
+    opacity: .5;
+}
+#menu svg.selected {
+    transform: rotate(180deg);
+}
+#menu svg.selected + .sub-menu {
+    display: initial;
+}
 
 .sub-menu {
     display: none;
@@ -73,6 +83,12 @@ html {
     list-style: none;
     height: 30px;
     line-height: 30px;
+}
+
+#username {
+    position: absolute;
+    top: 15px;
+    right: 15px;
 }
 
 /*---MAIN---*/

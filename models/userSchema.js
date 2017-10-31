@@ -8,9 +8,12 @@ var User = new Schema({
     password: String,
     firstName: String,
     lastName: String,
-    categories: {
-        Entertainment: ["Netflix", "Spotify", "HBO", "Viaplay"], 
-        Everyday: ["Groceries", "Takeaway", "Alcohol", "Restaurants", "Personal supplies", "Clothes","Laundry/dry cleaning", "Hair/beauty", "Subscriptions", "Other", "Fitness World"]
+    categories: { type: Array, default: ["Everyday", "Entertainment", "Utilities", "Home", "Insurance", "Technology", "Transportation", "Travel", "Other", "Debt", "Education"] },
+    expenses: { type: Object, default: {
+        Entertainment: ["Netflix", "Spotify", "HBO", "Viaplay"],
+        Everyday: ["Groceries", "Takeaway", "Alcohol", "Restaurants", "Personal supplies", "Clothes","Laundry/dry cleaning", "Hair/beauty", "Subscriptions", "Other", "Fitness World"],
+        Utilities: ["Phone", "Internet", "TV"]
+        },
     },
     url: String,
     date: { type: Date, default: Date.now },

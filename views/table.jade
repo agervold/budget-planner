@@ -13,7 +13,7 @@ table
                 th 0DKK
             - }
     tbody
-        for expense in categories[category]
+        for expense in user.expenses[category]
             tr(id=expense)
                 td=expense
                 - for (var i = 0; i < 12; i++) {

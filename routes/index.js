@@ -70,9 +70,15 @@ var categories = {
 }
 
 
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+
+
 router.get('/:category?', function (req, res) {
     if (req.user != undefined) {
-        res.render('index', { user: req.user, categories: categories, category: req.params.category });
+        res.render('index', { user: req.user/*, categories: categories,*/, category: req.params.category });
     } else {
         res.render('register');
     }
@@ -117,11 +123,5 @@ router.post('/login', function(req, res, next) {
         });    
     })(req, res, next);
 })
-
-
-router.get('/logout', function(req, res) {
-    req.logout();
-    res.redirect('/');
-});
 
 module.exports = router;
