@@ -1,0 +1,35 @@
+#pugActions.pugSection
+    if user		
+        //- if user has created the event
+        if event.user.toString() == user._id.toString()
+            a(href="/event/#{event._id}/settings")
+                button.button Settings						
+        //- if user has created the event OR poll is public (true)
+        if event.user.toString() == user._id.toString() || event.settings.poll
+            button.button#event_poll Create Poll
+            form(action="/poll/create", method="post", id="form_poll")
+                input(name="question" placeholder="Question?" value="Swag?")
+                input(name="choice_1" placeholder="Choice 1" value="Ye")
+                input(name="choice_2" placeholder="Choice 2" value="Maybe")
+                input(name="choice_3" placeholder="Choice 3" value="Nah")
+                input(type="submit")					
+        //- if user has created the event OR upload is public (2 or 3)
+        if event.user.toString() == user._id.toString() || event.settings.upload == 2 || event.settings.upload == 3
+            form(action="/event/upload_image", method="post", enctype="multipart/form-data", id="form_eventImages")
+                input(type="hidden", name="event_id", value="#{event._id}")
+                label.button(for="inputImage") Upload Image
+                input(type="file", name="upl", id="inputImage", class="inputfile")
+                //input(type="submit", value="Submit")
+                button.button(type="submit") 
+                    i.fa.fa-upload
+        //- if user has created the event OR invite is public (true)
+        if event.user.toString() == user._id.toString() || event.settings.invite
+            button.button#invite_button Invite friends
+    button.button Toggle map
+    if event.user !== user._id && event.attending.indexOf(user._id) < 0
+        button.button#event_attend Attend
+    else
+        button.button#event_un-attend.delete Un-attend
+        
+    a(href="/event/#{event._id}/images")
+        button.button#event_images Images

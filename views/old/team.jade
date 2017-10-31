@@ -1,0 +1,20 @@
+extends layout
+
+block content
+    h1= team.name
+    h2 #{team.city}, #{team.country}
+    h2= team.sport
+
+    #actives
+        #tournaments
+            h2 Tournaments
+            ul
+        #leagues
+            h2 Leagues
+            ul
+        #players
+            h2 Players
+            ul
+                for player in players
+                    li
+                        a(href="/user/#{player._id}") #{player.firstName} #{player.lastName}

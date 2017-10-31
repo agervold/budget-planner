@@ -1,0 +1,417 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
+#mapContainer {
+    height: 500px;
+    position: relative;
+    /*box-shadow: 3px 3px 5px rgb(100,100,100);*/
+    border: 1px solid rgb(200, 200, 200);
+    overflow: hidden;
+    margin-top: 100px;
+}
+
+#mapContainer .fa-filter, #mapContainer .fa-list {
+    position: absolute;
+    top: 10px;
+    color: white;
+    font-size: 40px;
+    cursor: pointer;
+    display: none;
+    z-index: 1;
+}
+#mapContainer .fa-filter:hover, #mapContainer .fa-list:hover {
+    color: rgb(50,50,50);
+}
+#mapContainer .fa-filter {
+    left: 18px;
+}
+
+#mapContainer .fa-list {
+    right: 18px;
+}
+
+/*----------------------
+------MAP CONTROLS------
+----------------------*/
+#mapControls {
+    height: 100%;
+    width: 200px;
+    background: white;
+    display: inline-block;
+    vertical-align: top;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+#mapControls > div {
+    height: calc(25% - 13px);
+    height: 112px;
+    height: 99px;
+    text-align: center;
+    border-bottom: 1px solid rgb(200,200,200)
+}
+
+#mapControls > div:first-of-type, #mapControls > div:last-of-type {
+    height: initial;
+    cursor: pointer;   
+    background: rgb(240,240,240);
+    border: 0;
+}
+#mapControls div:last-of-type p {
+    margin-right: 5px;
+}
+
+#mapControls div:last-of-type:hover > .fa-search {
+    color: rgb(100,250,160);
+}
+
+#mapControls label {
+    display: block;
+}
+
+#searchTime1, #searchTime2 {
+    height: 50px;
+    width: 50px;
+    font-size: 40px;
+    background: 0;
+    border: 0;
+    font-family: digital;
+}
+#searchTime1 {
+    text-align: right;
+}
+#searchTimeSpan {
+    font-size: 40px;
+    color: rgb(100,100,100);
+    font-family: digital;
+}
+
+#mapControls p, #mapControls .fa-search {
+    font-size: 20px;
+    line-height: 51px;
+    transition: 0.3s color;
+    display: inline-block;
+    margin: 0;
+}
+
+/*----------------------
+-----------MAP----------
+----------------------*/
+#mapContainer #map {
+    height: 100%;
+    background-color: rgb(229, 227, 223);
+}
+
+/*----------------------
+-----------PUGS---------
+----------------------*/
+#pugs {  
+    width: 300px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+#pugsHeader {
+    margin: 0;
+    line-height: 51px;
+    font-size: 20px;
+    text-align: center;
+    background: rgb(240,240,240);
+}
+
+#pugs .close_container {
+    left: 10px;
+}
+
+#mapContainer #pugList, #mapContainer #pugInfo {
+    height: 100%;
+    height: calc(100% - 51px);
+    background: white;
+    top: 0; right: 0;
+}
+
+#mapContainer #pugList {
+    right: 0;
+    position: relative;
+    overflow: auto;
+}
+
+#mapContainer #pugList ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+#mapContainer #pugList li {  
+    font-size: 20px;
+    border-bottom: 1px solid rgb(200,200,200);
+    padding: 10px;
+    cursor: pointer;
+}
+#mapContainer #pugList li:hover {
+    background: rgb(240,240,240);
+}
+
+#mapContainer #pugInfo {
+    position: absolute;
+    top: 51px;
+    right: -300px;
+    width: 300px;
+}
+
+
+.temp {
+    display: none;
+}
+
+#mapContainer #pugInfo h2 {
+    padding-left: 15px;
+    display: inline-block;
+    margin: 10px 0;
+}
+
+.temp a {
+    text-decoration: none;
+}
+
+#pugList h1, .pugTitle {
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    font-weight: 300;
+    font-size: 24px;
+}
+
+.pugActions {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    height: 70px;
+    border-color: rgb(200,200,200);
+}
+
+.pugActions div {
+    display: inline-block;
+    width: 33%;
+    text-align: center;
+    cursor: pointer;
+}
+
+.pugActions div:hover > * {
+    color: rgb(100,250,160);
+}
+
+.pugActions h3 {
+    margin: 0;
+    margin-top: 10px;
+    font-weight: 300;
+}
+
+.pugInfos {
+    border-bottom: 1px solid rgb(200, 200, 200);
+    padding: 10px 0;
+}
+
+.pugInfo {
+    height: 30px;
+    overflow: hidden;
+}
+
+.pugInfo .fa {
+    font-size: 20px;
+    padding: 0 10px;
+    line-height: 30px;
+    float: left;
+    width: 40px;
+    text-align: center;
+}
+
+.pugInfo p {
+    margin: 0;
+    line-height: 30px;
+}
+
+.close_container {  
+    height: 20px;
+    width: 20px;
+    padding-left: 10px;
+    position: absolute;
+    top: 15px;
+    right: 10px;
+    cursor:pointer;
+}
+.close_container:hover div {
+    background: grey;
+}
+.close_container div {
+    height: 20px;
+    width: 1px;
+    background: black;
+}
+.close_container .close_dash1 {   
+    transform: rotate(45deg);
+}
+.close_container .close_dash2 {   
+    transform: rotate(90deg);
+}
+
+
+.selectParent{
+    overflow:hidden;  
+    width: 100%;
+    text-align: left;
+}
+
+.selectParent select{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 2px 2px 2px 20px;
+    border: none;
+     background: transparent url("http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png") no-repeat left center;
+    margin-left: 10px;
+}
+
+
+input[type=range] {
+  -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+  width: 150px; /* Specific width is required for Firefox. */
+  background: transparent; /* Otherwise white in Chrome */
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+}
+
+input[type=range]:focus {
+  outline: none; /* Removes the blue border. You should probably do some kind of focus styling for accessibility reasons though. */
+}
+
+input[type=range]::-ms-track {
+  width: 100%;
+  cursor: pointer;
+
+  /* Hides the slider so custom styles can be added */
+  background: transparent; 
+  border-color: transparent;
+  color: transparent;
+}
+
+
+
+/* Special styling for WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 1px solid rgb(100,100,100);
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  background: rgb(240,240,240);
+  cursor: pointer;
+  margin-top: -4px;
+}
+
+/* All the same stuff for Firefox */
+input[type=range]::-moz-range-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+/* All the same stuff for IE */
+input[type=range]::-ms-thumb {
+  box-shadow: 1px 1px 1px #000000, 0px 0px 1px #0d0d0d;
+  border: 1px solid #000000;
+  height: 36px;
+  width: 16px;
+  border-radius: 3px;
+  background: #ffffff;
+  cursor: pointer;
+}
+
+
+
+
+input[type=range]::-webkit-slider-runnable-track {
+  width: 200px;
+  height: 8.4px;
+  height: 4px;
+  cursor: pointer;
+  background: rgb(200,200,200);
+  border-radius: 5px;
+  border-radius: 0;
+  border: 0.2px solid #010101;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+  background: rgb(150,150,150);
+}
+
+input[type=range]::-moz-range-track {
+  width: 300px;
+  height: 8.4px;
+  cursor: pointer;
+  background: #3071a9;
+  border-radius: 1.3px;
+  border: 0.2px solid #010101;
+}
+
+input[type=range]::-ms-track {
+  width: 300px;
+  height: 8.4px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  border-width: 16px 0;
+  color: transparent;
+}
+input[type=range]::-ms-fill-lower {
+  background: #2a6495;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+}
+input[type=range]:focus::-ms-fill-lower {
+  background: #3071a9;
+}
+input[type=range]::-ms-fill-upper {
+  background: #3071a9;
+  border: 0.2px solid #010101;
+  border-radius: 2.6px;
+}
+input[type=range]:focus::-ms-fill-upper {
+  background: #367ebd;
+}
+
+
+#mapControls .selectorTitle {
+    line-height: 112px;
+    line-height: 99px;
+}
+#selectorTime p:not(.selectorTitle):hover {
+    background: black;
+    color: white;
+}
+#mapControls #timeToday, #mapControls #timeAnotherDay {
+    display: none;
+    transition: 0.3s background, 0.3s color;
+    cursor: pointer;
+    line-height: 56px;   
+}
+
+
+
+.selector > *:not(.selectorTitle) {
+    display: none;
+}

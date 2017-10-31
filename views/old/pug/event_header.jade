@@ -1,0 +1,13 @@
+#event_image
+#socials
+    i.fa.fa-facebook-square
+        a(href="facebook.com/#{event.settings.facebook}") facebook.com/#{event.settings.facebook}
+    i.fa.fa-youtube-square
+        a(href="youtube.com") youtube.com
+    i.fa.fa-twitter-square
+        a(href="twitter.com/#{event.settings.twitter}") twitter.com/#{event.settings.twitter}
+    i.fa.fa-instagram
+        a(href="instagram.com") instagram.com
+h1#title= event.title
+a(href="/user/#{creator._id}")
+    h3#created_by created by #{creator.firstName + ' ' + creator.lastName}

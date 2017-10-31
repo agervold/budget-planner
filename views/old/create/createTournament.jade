@@ -1,0 +1,37 @@
+extends ../layout
+
+block content
+
+    h1 Create Tournament
+
+    form(id="formCreateTournament" action='/tournament/create' method='post')
+        input(type='text', name='title' class="input" placeholder="Title" value="Tysker på Nandrups")
+        input(type='text', name='venue' placeholder="Venue" class="input" value="Nandrups")
+        input(type='text', name='street', placeholder='Street', value='Nandrupsvej' class="input")
+        input(type='text', name='number', placeholder='Number', value='1' class="input")
+        input(type='text', name='city', value='Frederiksberg' placeholder="City" class="input")
+        input(type='text', name='country', value='Denmark' placeholder="Country" class="input")
+        select(name='sport' class="input")
+            option(value='' disabled selected style='display:none') Sport
+            option Football
+            option Basketball
+        select(name='format' class="input")
+            option(value='', disabled, selected, style='display:none') Format
+            option Groups + Single Elim.
+             
+        input(type='text', name='date' placeholder="yyyy-mm-dd" class="input" value="2015-12-24")
+        input(type='text', name='time' placeholder="hh:mm" class="input" value="12:34")
+        .input
+            label(for="private") Private
+            input(type='checkbox', name='private' placeholder="Private")
+        //input(type='file', name='file', accept='image/*', value='Select Image', onchange='previewImage(event)')
+        #previewImages
+        textarea(name='info', placeholder='More Info' class="input") Fun!
+        input(type='submit', value='Create Tournament' class="input")
+//
+    form(action="/upload_image", method="post", enctype="multipart/form-data")
+        input(type="file", name="upl")
+        input(type="submit", value="Submit")
+        
+block scripts
+    script(src="/javascripts/create_script.js")

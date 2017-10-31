@@ -1,0 +1,19 @@
+extends ../layout
+
+block content
+
+    h1 Create Team
+
+    form(id="formCreateTeam" action='/create/team', method='post')
+        input(type='text', name='name' value="Holdet" class="input" placeholder="Name")
+        input(type='text', name='city', value='Frederiksberg' placeholder="City" class="input")
+        input(type='text', name='country', value='Denmark' placeholder="Country" class="input")
+        select(name='sport' class="input")
+            option(value='' disabled selected style='display:none') Sport
+            option Football
+            option Basketball
+        
+        input(type='submit', value='Create Team' class="input")
+        
+block scripts
+    script(src="/javascripts/create_script.js")

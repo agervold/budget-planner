@@ -1,0 +1,38 @@
+head
+    link(rel="stylesheet" href="/stylesheets/stylesheet.css")
+
+- var monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+body
+    //-
+        ul#menu 
+            li Menu
+            li Entertainment
+            li.selected Everyday
+            li Utilities
+            li Home
+            li Insurance
+            li Technology
+            li Transportation
+            li Travel
+            li Other
+            li Debt
+            li Education
+    ul#menu
+        li Menu
+        each category, i in categories
+            li
+                span=i
+                svg(xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', version='1.1', viewbox='0 0 129 129', enable-background='new 0 0 129 129')
+                    g
+                        path(d='m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z', fill='#fff')
+                ul.sub-menu
+                    each expense in categories[i]
+                        li=expense
+
+    if category == undefined
+        include main
+    else
+        include table
+
+script(src="/javascripts/jquery-3.2.1.min.js")
+script(src="/javascripts/script.js")

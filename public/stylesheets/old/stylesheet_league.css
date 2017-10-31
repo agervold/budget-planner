@@ -1,0 +1,56 @@
+#prizes {
+    width: 150px;
+    background: rgb(240,240,240);
+    border: 1px solid rgb(200,200,200);
+}
+
+.prize {
+    padding: 5px 10px;
+}
+
+.prize > * {
+    display: inline-block;
+    margin: 0;  
+}
+
+.prize .fa-trophy {
+    margin-right: 5px;
+}
+
+.prize p:last-child {
+    float: right;
+}
+
+table {
+    border-collapse: collapse;
+    margin-top: 15px;
+    width: 1000px;
+}
+
+thead {
+    background: rgb(220,220,220);
+    border-top: 1px solid rgb(160,160,160);
+}
+
+th {
+    padding: 3px 0;
+}
+
+tr {
+    border-bottom: 1px solid rgb(200,200,200);
+}
+
+td {
+    padding: 3px 0;
+    text-align: center;
+}
+
+th:first-of-type, td:first-of-type {
+    text-align: right;
+    width: 40px;
+}
+
+th:nth-of-type(2), td:nth-of-type(2) {
+    text-align: left;
+    padding-left: 10px;
+}

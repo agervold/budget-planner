@@ -1,0 +1,26 @@
+extends ../layout
+
+block content
+	h1 Settings
+	
+	button.button Reset Password
+	br
+	form(action="/url", method="post" id="form_url")
+		input(name="url" placeholder="Custom URL" class="input joined_input")
+		input(type="submit" class="button joined_button")
+		
+	h2 Social Media
+	form(action="/settings", method="post", id="form_user_settings")
+		label facebook
+		input(placeholder="Facebook", name="facebook", class="input", value="#{ user.social.facebook == undefined ? '' : user.social.facebook }")
+		br
+		label twitter
+		input(placeholder="Twitter", name="twitter", class="input", value="#{ user.social.twitter == undefined ? '' : user.social.twitter }")
+		br
+		label instagram
+		input(placeholder="instagram", name="instagram", class="input", value="#{ user.social.instagram == undefined ? '' : user.social.instagram }")
+		br
+		label youtube
+		input(placeholder="youtube", name="youtube", class="input", value="#{ user.social.youtube == undefined ? '' : user.social.youtube }")
+		br
+		input.button(type="submit" value="Save")

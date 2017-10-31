@@ -1,0 +1,106 @@
+#prizes {
+    width: 150px;
+    background: rgb(240,240,240);
+    border: 1px solid rgb(200,200,200);
+}
+
+.price {
+    padding: 5px 10px;
+}
+
+.price > * {
+    display: inline-block;
+    margin: 0;  
+}
+
+.price .fa-trophy {
+    margin-right: 5px;
+}
+
+.price p:last-child {
+    float: right;
+}
+
+
+#groups {
+    margin-bottom: 50px;
+    display: inline-block;
+    background: rgb(240,240,240);
+    border: 1px solid rgb(200,200,200);
+    border-bottom: 0;
+}
+
+.group {
+    display: inline-block;
+    width: 100px;
+    border-right: 1px solid rgb(200,200,200);
+}
+.group:last-of-type {
+    border: 0;
+}
+
+.group p {
+    text-align: center;
+    border-bottom: 1px solid rgb(200,200,200);
+    margin: 0;
+    padding: 8px;
+}
+.group p:first-child {
+    font-size: 20px;
+}
+
+#playoffs {
+    height: 500px;
+    position: relative;
+    text-align: center;
+}
+
+.stage {
+    height: 100%;
+    display: inline-block;
+    /*background: rgb(240,240,240);*/
+    vertical-align: top;
+    padding: 0 20px;
+    position: relative;
+    max-width: 200px;
+    text-align: left;
+}
+
+.stageTitle {
+    margin: 0;
+    position: absolute;
+    top: -29px;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+}
+
+.match {
+    position: relative;
+}
+
+.teamContainer {  
+    position: absolute;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    height: 48px;
+    padding: 5px;
+    margin: auto;
+    background: rgb(240,240,240);
+    border: 1px solid rgb(200,200,200);
+}
+
+.teamContainer .team:first-child {
+    border-bottom: 1px solid rgb(220,220,220);
+}
+
+.team p {
+    margin: 0;
+    display: inline-block;
+}
+
+.team .teamScore {
+    margin-right: 5px;
+}

@@ -1,0 +1,144 @@
+@font-face {
+    font-family: roboto;
+    src: url(/fonts/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: roboto-thin;
+    src: url(/fonts/Roboto-Thin.ttf);
+}
+
+* {
+    box-sizing: border-box;
+    font-family: sans-serif;
+    font-family: roboto;
+    color: white;
+}
+
+html {
+    background: #141d26;
+}
+
+
+
+#menu {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0;
+    width: 200px;
+    margin: 0;
+    border-right: 1px solid rgba(200,200,200,.5);
+}
+
+#menu > li {
+    line-height: 60px;
+    text-align: left;
+    padding-left: 18px;
+    border-bottom: 1px solid rgba(200,200,200,.5);
+    font-size: 18px;
+    list-style: none;
+    background: #1b2836;
+    cursor: pointer;
+    position: relative;
+}
+#menu > li:first-of-type {
+    font-style: italic;
+    font-weight: bold;
+    cursor: initial;
+}
+#menu > li:not(:first-of-type):hover {
+    background: rgb(37, 50, 64);
+}
+#menu > li.selected {
+    background: rgb(47, 60, 74);
+}
+
+#menu svg {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    height: 24px;
+    width: 24px;
+}
+
+.sub-menu {
+    display: none;
+    padding-left: 15px;
+}
+
+.sub-menu li {
+    font-size: 14px;
+    list-style: none;
+    height: 30px;
+    line-height: 30px;
+}
+
+/*---MAIN---*/
+#main { 
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    font-size: 30px;
+    height: 30px;
+    line-height: 30px;
+    width: 100px;
+    text-align: center;
+}
+
+
+.food {
+    display: inline-block;
+    width: 400px;
+}
+
+p {
+    margin: 0;
+}
+
+.cat {
+    font-size: 30px;
+}
+
+table {
+    width: 1200px;
+    height: 672px;
+    padding: 20px;
+    border-collapse: collapse;
+    border: 1px solid rgba(200,200,200,.5);
+    background: #1b2836;
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    margin: auto;
+}
+
+td {
+    border: 1px solid rgba(200,200,200,.5);
+    padding: 0;
+    width: 66px;
+    text-align: center;
+}
+
+td:first-of-type {
+    text-align: left;
+    width: 200px;
+    padding-left: 15px;
+}
+
+input {
+    height: 54px;
+    width: 65px;
+    width: 72px;
+    border: 0;
+    background: transparent;
+    font-size: 16px;
+    text-align: inherit;
+}
+
+button {
+    width: 100%;
+}

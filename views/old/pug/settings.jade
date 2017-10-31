@@ -1,0 +1,53 @@
+extends ../layout
+
+block content
+	a(href="/event/#{event._id}")
+		i.fa.fa-arrow-circle-o-left
+	h1= event.title
+	h2 Settings
+	form(action="/event/settings", method="post", enctype="multipart/form-data", id="form_settings")
+		input(type="hidden", value="#{event._id}", name="event_id")
+		br
+		br
+		label(for="inputImage") Change Image
+		input(type="file", name="upl", id="inputImage")		
+		br
+		br
+		label Enable messages
+		input(type="checkbox", name="messages")
+		br
+		label Show who's not coming
+		input(type="checkbox" name="notComing")
+		br
+		label Private
+		input(type="checkbox" name="private")
+		br		
+		label Who can invite?
+		select(name="invite", class="input")
+			option Only me
+			option Everyone
+		br
+		label Who can upload images?
+		select(name="uploadImage", class="input")
+			option Only me
+			option Everyone
+			option Everyone with permission
+		br
+		label Who can create polls?
+		select(name="poll", class="input")
+			option Only me
+			option Everyone
+		br
+		br
+		label Social media
+		br
+		label facebook
+		input(placeholder="Facebook", name="facebook", class="input", value="#{event.settings.facebook}")
+		br
+		label twitter
+		input(placeholder="Twitter", name="twitter", class="input", value="#{event.settings.twitter}")
+		br
+		input.button(type="submit" value="Save")
+	button.button.delete#event_delete Delete
+		
+	

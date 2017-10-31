@@ -1,0 +1,9 @@
+extends layout
+
+block content
+	each event in events
+		a(href="/event/#{event._id}" class="event" style="background-image:url(#{event.image}); background-size:cover")
+			div
+				span#event_title= event.title
+				i#event_privacy(class="#{ event.priv ? 'fa fa-lock' : 'fa fa-unlock' }")
+				span#event_time= event.time
