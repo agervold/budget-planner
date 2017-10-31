@@ -23,6 +23,7 @@ html {
 
 #menu {
     height: 100%;
+    height: calc(100% - 50px);
     position: absolute;
     top: 0;
     left: 0;
@@ -85,6 +86,52 @@ html {
     line-height: 30px;
 }
 
+#settings {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200px;
+    /*height: 50px;*/
+    text-align: center;
+    border-top: 1px solid rgba(200,200,200,.5);
+    background: #1b2836;
+    border-right: 1px solid rgba(200,200,200,.5);
+}
+
+#newCategory {
+    height: 30px;
+    display: none;
+}
+#newCategory input {
+    font-size: 20px;
+    width: 150px;
+    color: black;
+    padding: 1px 0 1px 3px;
+}
+#newCategory button {
+    width: 49px;
+    height: 100%;
+    vertical-align: top;
+    color: black;
+}
+
+#settings .fa {
+    font-size: 26px;
+    line-height: 50px;
+    cursor: pointer;
+}
+#settings .fa-plus {
+    float: left;
+    margin-left: 20px;
+}
+#settings .fa-cog {
+    float: right;
+    margin-right: 20px;
+}
+#settings .fa:hover {
+    opacity: .5;
+}
+
 #username {
     position: absolute;
     top: 15px;
@@ -145,7 +192,7 @@ td:first-of-type {
     padding-left: 15px;
 }
 
-input {
+table input {
     height: 54px;
     width: 65px;
     width: 72px;

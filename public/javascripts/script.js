@@ -29,6 +29,10 @@ $("#menu svg").on("click", function() {
     }
 });
 
+$("#settings .fa-plus").on("click", function() {
+    $("#newCategory").toggle();
+});
+
 
 // Updates the monthly total when an input is changed
 var temp; // Stores value of input before changed
