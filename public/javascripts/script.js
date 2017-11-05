@@ -51,3 +51,27 @@ $("table input").change(function() {
         t.innerText = oldValue - temp;
     }
 });
+
+$(".expense").on("click", function() {
+    var p = location.pathname.split("/");
+    location.href = `${location.origin}/${p[1]}/${p[2]}/${$(this).text()}`;
+});
+
+
+
+/*---------------------
+----------AJAX---------
+---------------------*/
+// create expense entry
+$('#expenseEntryForm').on('submit', function(e) {
+	e.preventDefault();
+	var data = $(this).serialize();
+	$.post('/createExpenseEntry', data, function(res) {
+        var obj = JSON.parse(res);
+        if (obj.success) {
+            $("tbody").append(obj.html);
+        } else {
+            alert("error");
+        }
+	});
+});

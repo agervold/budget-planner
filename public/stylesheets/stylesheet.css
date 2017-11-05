@@ -19,7 +19,9 @@ html {
     background: #141d26;
 }
 
-
+body {
+    margin: 0;
+}
 
 #menu {
     height: 100%;
@@ -45,10 +47,11 @@ html {
     cursor: pointer;
     position: relative;
 }
-#menu > li:first-of-type {
+#menu .sheet {
     font-style: italic;
     font-weight: bold;
     cursor: initial;
+    font-size: 20px;
 }
 #menu > li:not(:first-of-type):hover {
     background: rgb(37, 50, 64);
@@ -138,19 +141,37 @@ html {
     right: 15px;
 }
 
-/*---MAIN---*/
-#main { 
+
+#content {
+    width: 1200px;
+    height: 672px;
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
     margin: auto;
+}
+
+/*---MAIN---*/
+#main { 
     font-size: 30px;
-    height: 30px;
-    line-height: 30px;
-    width: 100px;
-    text-align: center;
+}
+/*
+#chart_div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    height: 300px;
+    width: 400px;
+}
+*/
+
+#defs + rect {
+    fill: transparent;
 }
 
 
@@ -168,15 +189,9 @@ p {
 }
 
 table {
-    width: 1200px;
-    height: 672px;
-    padding: 20px;
     border-collapse: collapse;
     border: 1px solid rgba(200,200,200,.5);
     background: #1b2836;
-    position: absolute;
-    top: 0; right: 0; bottom: 0; left: 0;
-    margin: auto;
 }
 
 td {
@@ -204,4 +219,10 @@ table input {
 
 button {
     width: 100%;
+}
+
+
+
+#expenseEntryForm input {
+    color: black;
 }

@@ -34,6 +34,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/profile', require('./routes/profile'));
 app.use('/', require('./routes/index'));
 
 // passport config

@@ -1,27 +1,30 @@
-- var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+extends layout
+block content
+    - var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-table
-    thead
-        tr
-            th(rowspan="2") Monthly totals:
-            for month in months
-                th=month
-            th Total
-            th Average
-        tr
-            - for (var i = 0; i < 14; i++) {
-                th 0DKK
-            - }
-    tbody
-        for expense in user.expenses[category]
-            tr(id=expense)
-                td=expense
-                - for (var i = 0; i < 12; i++) {
-                    td
-                        input
+    table
+        thead
+            tr
+                th(rowspan="2") Monthly totals:
+                for month in months
+                    th=month
+                th Total
+                th Average
+            tr
+                - for (var i = 0; i < 14; i++) {
+                    th 0DKK
                 - }
-                td 0
-                td 0
-        tr
-            td(colspan="15")
-                button Add New
+        tbody
+            //for expense in user.expenses[category]["2017"]["entries"]
+            for index, expense in user[sheet][category]
+                tr(id=expense)
+                    td.expense=expense
+                    - for (var i = 0; i < 12; i++) {
+                        td
+                            input
+                    - }
+                    td 0
+                    td 0
+            tr
+                td(colspan="15")
+                    button Add New
