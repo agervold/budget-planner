@@ -1,0 +1,36 @@
+extends layout
+block content
+    h1#main Summary
+    h3 This page generates a summary of your spending based on data in the 'Expenses' and 'Income' tabs.
+    table
+        thead
+            tr
+                th
+                for month in months
+                    th #{month}. '17
+                th Total
+                th Average
+            tr
+                td Income
+                - for (var i = 0; i < 14; i++) {
+                        td 0
+                - }
+            tr
+                td Expenses
+                - for (var i = 0; i < 14; i++) {
+                        td 0
+                - }
+            tr
+                td Net savings
+                - for (var i = 0; i < 14; i++) {
+                        td 0
+                - }
+            tr
+                td Ending balance
+                - for (var i = 0; i < 14; i++) {
+                        td 0
+                - }
+            
+    #chart_div
+    script(src="https://www.gstatic.com/charts/loader.js")
+    script(src="javascripts/chart.js")

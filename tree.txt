@@ -1,0 +1,8 @@
+Sheet //Income
+    Category[] //Wages, Other
+        Expense[] //Wages -> Paycheck, Tips
+            Year[] //2017
+                Total // 1234
+                Month[12]
+                    Total   
+                    Entry[]               

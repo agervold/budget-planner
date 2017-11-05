@@ -1,0 +1,20 @@
+extends layout
+block content
+    table
+        thead
+            tr
+                th=expense.name
+                th=expense.total
+                th Source
+        tbody
+            for entry in entries
+                tr
+                    td=entry.date
+                    td=entry.cost
+                    td=entry.source
+    form#expenseEntryForm(action="/createExpenseEntry" method="post")
+        input(name="name" type="hidden" value="#{expense.name}")
+        input(placeholder="Date" name="date" type="date" required)
+        input(placeholder="Cost" name="cost" type="number" required)
+        input(placeholder="Source" name="source" type="text" required)
+        input(type="submit" value="Add")
