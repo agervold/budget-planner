@@ -1,20 +1,59 @@
 extends layout
 block content
-    table
+    #expenseInfo
+        h1=expense.name
+        h6#expenseTotal Total:
+            span=expense.total
+        h6#expenseAvg Average:
+            span=(expense.total / entries.length).toFixed(2)
+        -
+            var srcs = [];
+            for (var i = 0; i < entries.length; i++) {
+                if (srcs.indexOf(entries[i].source) < 0) {
+                    srcs.push(entries[i].source);
+                }
+            }
+        h6#expenseSrcs Sources:
+            span=srcs.length
+    #expenseFilter
+        select#expenseSort
+            if sort == "date" || sort == undefined
+                option(selected) Date
+                option Cost
+                option Source
+            else if sort == "cost"
+                option Date
+                option(selected) Cost
+                option Source
+            else if sort == "source"
+                option Date
+                option Cost
+                option(selected) Source
+        select#expenseAscending
+            if ascending == 1
+                option(selected) Ascending
+                option Descending
+            else
+                option Ascending
+                option(selected) Descending
+        input#expenseInput(placeholder="Search for sources")
+    table#expenseTable
         thead
             tr
-                th=expense.name
-                th=expense.total
+                th Date
+                th Cost
                 th Source
         tbody
             for entry in entries
                 tr
-                    td=entry.date
+                    td=entry.date.toDateString()
                     td=entry.cost
                     td=entry.source
     form#expenseEntryForm(action="/createExpenseEntry" method="post")
+        input(name="sheet" type="hidden" value="#{sheet}")
+        input(name="category" type="hidden" value="#{category}")
         input(name="name" type="hidden" value="#{expense.name}")
         input(placeholder="Date" name="date" type="date" required)
-        input(placeholder="Cost" name="cost" type="number" required)
-        input(placeholder="Source" name="source" type="text" required)
+        input(placeholder="Cost" name="cost" type="number" required value="15")
+        input(placeholder="Source" name="source" type="text" required value="Bakken")
         input(type="submit" value="Add")

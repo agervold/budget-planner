@@ -57,6 +57,27 @@ $(".expense").on("click", function() {
     location.href = `${location.origin}/${p[1]}/${p[2]}/${$(this).text()}`;
 });
 
+$("#expenseSort, #expenseAscending").on("change", function() {
+    var sort = $("#expenseSort option:selected").text().toLowerCase();
+    var ascending = $("#expenseAscending option:selected").text() == "Ascending" ? 1 : 0;
+    location.search = `?sort=${sort}&ascending=${ascending}`;
+});
+
+var tr = $("tr");
+var td;
+$("#expenseInput").on("keyup", function() {
+    filter = $(this).val().toUpperCase();
+    for (var i = 1; i < tr.length; i++) {
+        td = $(tr[i]).find("td")[2];
+        if (td) {
+            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                $(tr[i]).show();
+            } else {
+                $(tr[i]).hide();
+            }
+        } 
+    }
+});
 
 
 /*---------------------
@@ -70,6 +91,11 @@ $('#expenseEntryForm').on('submit', function(e) {
         var obj = JSON.parse(res);
         if (obj.success) {
             $("tbody").append(obj.html);
+            var newTotal = parseFloat($("#expenseTotal span").text())+obj.cost;
+            var len = $("tbody tr").length;
+            $("#expenseTotal span").text(newTotal);
+            $("#expenseAvg span").text(newTotal / len);
+            //TODO: Potentially increment 'sources'
         } else {
             alert("error");
         }

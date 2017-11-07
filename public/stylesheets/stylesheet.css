@@ -222,7 +222,27 @@ button {
 }
 
 
+/*EXPENSE*/
+#expenseInfo h1 {
+    display: inline-block;
+}
 
-#expenseEntryForm input {
+#expenseInfo h6 {
+    display: inline-block;
+    width: 80px;
+    text-align: center;
+    color: rgb(150,150,150)
+}
+
+#expenseInfo h6 span {
+    font-size: 20px;
+    display: block;
+}
+
+#expenseTable td {
+    padding: 10px;
+}
+
+select, select option, #expenseInput, #expenseEntryForm input {
     color: black;
 }

@@ -8,4 +8,4 @@ var expenseEntrySchema = new Schema({
 	expense: { type: Schema.Types.ObjectId, ref: 'Expense' }
 });
 
-module.exports = mongoose.model('ExpenseEntry', expenseEntrySchema);
+exports = mongoose.model('ExpenseEntry', expenseEntrySchema);

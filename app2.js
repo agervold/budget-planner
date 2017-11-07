@@ -8,8 +8,7 @@ bodyParser = require('body-parser'),
 mongoose = require('mongoose'),
 passport = require('passport'),
 LocalStrategy = require('passport-local').Strategy,
-User = require('./models/userSchema');
-
+User = require('./models/schemas').user;
 
 // mongoose
 mongoose.connect('mongodb://localhost/budgetplanner');
@@ -38,12 +37,9 @@ app.use('/profile', require('./routes/profile'));
 app.use('/', require('./routes/index'));
 
 // passport config
-
-var User = require('./models/userSchema.js');
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
 
 app.listen(8888);
 

@@ -1,10 +1,14 @@
-var express = require('express');
-var passport = require('passport');
-var mongoose = require('mongoose');
-var User = require('../models/userSchema');
-var Expense = require('../models/expenseSchema');
-var ExpenseEntry = require('../models/expenseEntrySchema');
-var router = express.Router();
+var // Dependencies
+express = require('express'),
+passport = require('passport'),
+mongoose = require('mongoose'),
+// Models
+ExpenseEntry = require('../models/schemas').entry,
+Expense = require('../models/schemas').expense,
+Category = require('../models/schemas').category,
+User = require('../models/schemas').user,
+
+router = express.Router();
 
 var groceries = {
     amount: 568.20,
@@ -72,20 +76,93 @@ var categories = {
     Everyday: ["Groceries", "Takeaway", "Alcohol", "Restaurants", "Personal supplies", "Clothes","Laundry/dry cleaning", "Hair/beauty", "Subscriptions", "Other", "Fitness World"]
 }
 
+
+router.get('/summary', function(req, res) {
+    res.render('summary', { user: req.user, sheet: "summary" });       
+});
+
+
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+
+
 router.get('/:sheet?/:category?/:expense?', function (req, res) {
     if (req.user != undefined) {
         if (req.params.expense != undefined) {
             var name = req.params.expense;
+            var cats = req.user[req.params.sheet.toLowerCase()+"Categories"];
+            for (var i = 0; i < cats.length; i++) {
+                if (cats[i].name == req.params.category) {
+                    var exs = cats[i].expenses;
+                    for (var e = 0; e < exs.length; e++) {
+                        if (exs[e].name == req.params.expense) {
+                            var expense = exs[e];
+                            if (expense.entries.length == 0) {
+                                res.render('expense', {user: req.user, sheet: req.params.sheet, category: req.params.category, expense: expense, entries: expense.entries});
+                            } else {
+                                /*
+                                var ascending = 1;
+                                if (req.query.ascending == 0) ascending = -1;
+            
+                                var sort = {date: ascending};
+                                switch(req.query.sort) {
+                                    case "cost":
+                                        sort = {cost: ascending};
+                                        break;
+                                    case "source":
+                                        sort = {source: ascending};
+                                        break;
+                                }
+            
+                                ExpenseEntry.find({ expense: expense._id}).sort(sort).exec(function(err2, entries) {
+                                    res.render('expense', {user: req.user, incomeCategories: incomeCategories, expensesCategories: expensesCategories, expense: expense, entries: entries, sort: req.query.sort, ascending: ascending});
+                                });
+                                */
+                                res.render('expense', {user: req.user, sheet: req.params.sheet, category: req.params.category, expense: expense, entries: expense.entries});
+                            }
+                        }
+                    }
+                }
+            }
+            /*
             Expense.findOne({ name: name, user: req.user.id }, function(err, expense) {
                 if (err) res.render('error', {user: req.user, error: err});
-                if (expense == undefined) {
-                    res.render('error', {user: req.user, error: "Couldn't find expense"});
-                } else {
-                    ExpenseEntry.find({ expense: expense._id}, function(err2, entries) {
-                        res.render('expense', {user: req.user, expense: expense, entries: entries});
+                if (expense == undefined) { // if expense doesn't exist, create it
+                    //res.render('error', {user: req.user, error: "Couldn't find expense"});
+                    var expense = new Expense({
+                        _id: new mongoose.Types.ObjectId(),
+                        name: name,
+                        user: req.user._id           
+                    });
+                    expense.save(function(err) {
+                        if (err) console.log(err);
+                        else {
+                            console.log("expense that didn't exist before, now does");
+                            res.render('expense', {user: req.user, expense: expense, entries: []});
+                        }
+                    });
+                } else {                    
+                    var ascending = 1;
+                    if (req.query.ascending == 0) ascending = -1;
+
+                    var sort = {date: ascending};
+                    switch(req.query.sort) {
+                        case "cost":
+                            sort = {cost: ascending};
+                            break;
+                        case "source":
+                            sort = {source: ascending};
+                            break;
+                    }
+
+                    ExpenseEntry.find({ expense: expense._id}).sort(sort).exec(function(err2, entries) {
+                        res.render('expense', {user: req.user, incomeCategories: incomeCategories, expensesCategories: expensesCategories, expense: expense, entries: entries, sort: req.query.sort, ascending: ascending});
                     });
                 }
             });
+            */
         } else {
             if (req.params.category != undefined) {
                 res.render('table', { user: req.user, sheet: req.params.sheet, category: req.params.category });
@@ -93,7 +170,6 @@ router.get('/:sheet?/:category?/:expense?', function (req, res) {
                 res.render('summary', { user: req.user, sheet: req.params.sheet });                
             }
         }
-
         /*
         var cat = req.params.category;
         if (cat != undefined) cat = cat.toLowerCase();
@@ -105,107 +181,62 @@ router.get('/:sheet?/:category?/:expense?', function (req, res) {
         res.render('register');
     }
 });
+//var defaultIncomeCategories = ["Wages", "Other"];
+//var defaultExpensesCategories = ["Everyday", "Entertainment", "Utilities", "Home", "Insurance", "Technology", "Transportation", "Travel", "Education", "Other"];
+var defaultIncomeCategories = {
+    "Wages": ["Paycheck", "Tips", "Commision"],
+    "Other": ["Gifts", "Refunds", "Dividens"]
+};
+var defaultExpensesCategories = {
+    "Everyday": ["Groceries", "Takeaway", "Alcohol"],
+    "Entertainment": ["Netflix", "Spotify", "HBO"]
+};
 
-/*
-router.get('/expense', function(req, res) {
-    //var name = req.params.expense;
-    var name = req.query.ex
-    /
-    Expense.
-        findOne({ name: 'Alcohol'}).
-            populate('user').
-            exec(function(err, expense) {
-                if (err) res.end(err);
-                res.end(expense.user.name);
-            });
-    /
-    if (req.user == undefined) {
-        res.redirect('/');
-    } else {
-        Expense.findOne({ name: name, user: req.user.id }, function(err, expense) {
-            if (err) res.end(err);
-            if (expense == undefined) {
-                res.end("Couldn't find expense");
-            } else {
-                //res.end(`Name: ${expense.name}, Total: ${expense.total}`);
-                ExpenseEntry.find({ expense: expense._id}, function(err2, entries) {
-                    //res.end(JSON.stringify(entries));
-                    res.render('expense', {user: req.user, expense: expense, entries: entries});
-                });
-            }
-        });
-    }
-});
-*/
-
-
-router.get('/logout', function(req, res) {
-    req.logout();
-    res.redirect('/');
-});
-
-/*
-router.get('/:category?', function (req, res) {
-    if (req.user != undefined) {
-        var cat = req.params.category;
-        if (cat != undefined) cat = cat.toLowerCase();
-        res.render('index', { user: req.user/*, categories: categories,*, category: cat });
-    } else {
-        res.render('register');
-    }
-});
-*/
-
-
-
-/*
-router.post('/register', function(req, res) {
-    User.register(new User({ username: req.body.username, firstName: req.body.firstName, lastName: req.body.lastName }), req.body.password, function(err, User) {
-        if (err) {
-            console.log(err);
-            return res.render('index', { status_message : 'email already taken' });
-        }
-        
-        passport.authenticate('local')(req, res, function () {
-            res.redirect('/');
-        });
+function getExpense(name) {
+    return new Expense({
+        name: name     
     });
-});
-*/
+}
+function getCategories(obj) {
+    var categories = [];
+    var keys = Object.keys(obj);
+    for (var i = 0; i < keys.length; i++) {
+        var expenses = [];
+        for (var e = 0; e < obj[keys[i]].length; e++) {
+            //saveExpense(obj[keys[i]][e], category._id);
+            expenses.push(getExpense(obj[keys[i]][e]));
+        }
+
+        var category = new Category({
+            name: keys[i],
+            expenses: expenses
+        });
+
+        categories.push(category);
+    }
+    return categories;
+}
 router.post('/register', function(req, res) {
-    var newUser = new User({ 
+    var incomeCategories = getCategories(defaultIncomeCategories);
+    var expensesCategories = getCategories(defaultExpensesCategories);
+
+    var user = new User({ 
         username: req.body.username,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName
+        incomeCategories: incomeCategories,
+        expensesCategories: expensesCategories
     });
-    User.register(newUser, req.body.password, function(err, User) {
+    User.register(user, req.body.password, function(err, User) {
         if (err) {
             console.log(err);
             return res.render('index', { status_message : 'email already taken' });
         }
-        var expense = new Expense({
-            _id: new mongoose.Types.ObjectId(),
-            name: "Alcohol",
-            user: newUser._id           
-        });
-        expense.save(function(err) {
-            if (err) console.log(err);
-            else console.log("expenses added?");
-        });
         passport.authenticate('local')(req, res, function () {
-            res.redirect('/');
+            res.redirect('/');          
         });
     });
 });
   
-/*
-router.post('/login',
-    passport.authenticate('local', { failureRedirect: '/login' }), 
-    function(req, res) {
-        res.redirect('/');
-    }
-);
-*/
+
 router.post('/login', function(req, res, next) {
     passport.authenticate('local', function(err, user, info) {
         if (err) {
@@ -220,39 +251,51 @@ router.post('/login', function(req, res, next) {
             }
             //return res.render('index', { user: req.user });
             return res.redirect('/');
+            //return res.redirect('/expenses/everyday/Alcohol');
         });    
     })(req, res, next);
 })
 
-router.post('/createExpenseEntry', function(req, res) {
-    var name = req.body.name;
-    var date = req.body.date;
-    //var cost = Math.floor(Math.random() * (200 - 20) + 20);
-    var cost = req.body.cost;
-    var source = req.body.source;
-    //if (req.query.name != undefined) name = req.query.name;
-    Expense.findOneAndUpdate({ name: name, user: req.user.id }, {$inc: {total: cost}}, function(err, expense) {
-        if (err) res.end(err);
-        if (expense == undefined) {
-            res.end("Couldn't find expense");
-        } else {
-            var newExpenseEntry = new ExpenseEntry({
-                date: date,
-                cost: cost,
-                source: source,
-                expense: expense._id
-            });
 
-            var resObj = {success: true};
-            newExpenseEntry.save(function(error) {
-                //res.end("Entry added");
-                if (error) resObj.success = false;
-                //resObj.entry = newExpenseEntry;
-                resObj.html = `<tr><td>${date}</td><td>${cost}</td><td>${source}</td></tr>`;
-                res.end(JSON.stringify(resObj));
-            });
+router.post('/createExpenseEntry', function(req, res) {
+    if (req.user == undefined) return res.end("not logged in");
+    
+    //req.body = {date: new Date(), cost: 7, source: "Bakken", sheet: "Expenses", category: "Everyday", name: "Alcohol"};
+
+    var rb = req.body,
+    date = rb.date,
+    cost = parseFloat(rb.cost),
+    source = rb.source,
+    sheet = rb.sheet, // Name of sheet (Expenses)
+    category = rb.category, // Name of category (Everyday)
+    name = rb.name, // Name of Expense (Alcohol) 
+    categories = req.user[sheet.toLowerCase()+"Categories"]; // Array of Category in selected sheet
+
+    for (var i = 0; i < categories.length; i++) {
+        if (categories[i].name == category) {
+            var exs = categories[i].expenses;
+            for (var e = 0; e < exs.length; e++) {
+                if (exs[e].name == name) {
+                    exs[e].entries.push(new ExpenseEntry({
+                        date: date,
+                        cost: cost,
+                        source: source
+                    }));
+                    exs[e].total += cost;
+                    User.findByIdAndUpdate(req.user._id, {$set: {'expensesCategories': req.user.expensesCategories}}, function(err, doc) {
+                        var resObj = {success: true};
+                        if (err) {
+                            resObj.success = false;                      
+                        } else {
+                            resObj.cost = cost;
+                            resObj.html = `<tr><td>${date}</td><td>${cost}</td><td>${source}</td></tr>`;
+                        }
+                        return res.end(JSON.stringify(resObj));
+                    });
+                }
+            }
         }
-    });
+    }
 });
 
 module.exports = router;

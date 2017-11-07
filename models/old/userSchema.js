@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var passportLocalMongoose = require('passport-local-mongoose');
 
+/*
 var year = {
     jan: {
         total: 0,
@@ -71,14 +72,12 @@ for (var c = 0; c < expenses.length; c++) {
         expensesObj[Object.keys(expensesObj)[c]][cat[e]] = {2017: year};
     }
 }
-
-
+*/
 var User = new Schema({
-    //email: String,
     username: String,
-    password: String,
-    firstName: String,
-    lastName: String,
+    incomeCategories: { type: Array, default: [] },
+    expensesCategories: { type: Array, default: [] },
+    //password: String,
     /*
     categories: { type: Array, default: ["Everyday", "Entertainment", "Utilities", "Home", "Insurance", "Technology", "Transportation", "Travel", "Other", "Debt", "Education"] },
     expenses: { type: Object, default: {
@@ -88,14 +87,9 @@ var User = new Schema({
         },
     },
     */
-    income: { type: Object, default: incomeObj },
-    expenses: { type: Object, default: expensesObj },
-    //expenses2: [{ type: Schema.Types.ObjectId, ref: 'Expense' }],
-    url: String,
-    date: { type: Date, default: Date.now },
-    image: { type: String, default: '/images/profile_default_green.png' },
-    facebook: { type: Object, default: {} },
-    social: { type: Object, default: { facebook: null, instagram: null, youtube: null, twitter: null } }
+    //income: { type: Object, default: incomeObj },
+    //expenses: { type: Object, default: expensesObj },
+    date: { type: Date, default: Date.now }
 });
 
 User.plugin(passportLocalMongoose);
