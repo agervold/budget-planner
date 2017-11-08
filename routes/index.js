@@ -93,76 +93,16 @@ router.get('/:sheet?/:category?/:expense?', function (req, res) {
         if (req.params.expense != undefined) {
             var name = req.params.expense;
             var cats = req.user[req.params.sheet.toLowerCase()+"Categories"];
-            for (var i = 0; i < cats.length; i++) {
-                if (cats[i].name == req.params.category) {
-                    var exs = cats[i].expenses;
-                    for (var e = 0; e < exs.length; e++) {
-                        if (exs[e].name == req.params.expense) {
-                            var expense = exs[e];
-                            if (expense.entries.length == 0) {
-                                res.render('expense', {user: req.user, sheet: req.params.sheet, category: req.params.category, expense: expense, entries: expense.entries});
-                            } else {
-                                /*
-                                var ascending = 1;
-                                if (req.query.ascending == 0) ascending = -1;
             
-                                var sort = {date: ascending};
-                                switch(req.query.sort) {
-                                    case "cost":
-                                        sort = {cost: ascending};
-                                        break;
-                                    case "source":
-                                        sort = {source: ascending};
-                                        break;
-                                }
-            
-                                ExpenseEntry.find({ expense: expense._id}).sort(sort).exec(function(err2, entries) {
-                                    res.render('expense', {user: req.user, incomeCategories: incomeCategories, expensesCategories: expensesCategories, expense: expense, entries: entries, sort: req.query.sort, ascending: ascending});
-                                });
-                                */
-                                res.render('expense', {user: req.user, sheet: req.params.sheet, category: req.params.category, expense: expense, entries: expense.entries});
-                            }
-                        }
-                    }
-                }
+            var expense = findExpense(cats, req.params.category, req.params.expense)
+            if (expense.entries.length == 0) {
+                res.render('expense', {user: req.user, sheet: req.params.sheet, category: req.params.category, expense: expense, entries: expense.entries});
+            } else {
+                var ascending = req.query.ascending ? parseInt(req.query.ascending) : 1;
+                var sort = req.query.sort || "date";
+                sortExpenseEntries(expense.entries, sort, ascending);
+                res.render('expense', {user: req.user, sheet: req.params.sheet, category: req.params.category, expense: expense, entries: expense.entries, sort: req.query.sort, ascending: ascending});
             }
-            /*
-            Expense.findOne({ name: name, user: req.user.id }, function(err, expense) {
-                if (err) res.render('error', {user: req.user, error: err});
-                if (expense == undefined) { // if expense doesn't exist, create it
-                    //res.render('error', {user: req.user, error: "Couldn't find expense"});
-                    var expense = new Expense({
-                        _id: new mongoose.Types.ObjectId(),
-                        name: name,
-                        user: req.user._id           
-                    });
-                    expense.save(function(err) {
-                        if (err) console.log(err);
-                        else {
-                            console.log("expense that didn't exist before, now does");
-                            res.render('expense', {user: req.user, expense: expense, entries: []});
-                        }
-                    });
-                } else {                    
-                    var ascending = 1;
-                    if (req.query.ascending == 0) ascending = -1;
-
-                    var sort = {date: ascending};
-                    switch(req.query.sort) {
-                        case "cost":
-                            sort = {cost: ascending};
-                            break;
-                        case "source":
-                            sort = {source: ascending};
-                            break;
-                    }
-
-                    ExpenseEntry.find({ expense: expense._id}).sort(sort).exec(function(err2, entries) {
-                        res.render('expense', {user: req.user, incomeCategories: incomeCategories, expensesCategories: expensesCategories, expense: expense, entries: entries, sort: req.query.sort, ascending: ascending});
-                    });
-                }
-            });
-            */
         } else {
             if (req.params.category != undefined) {
                 res.render('table', { user: req.user, sheet: req.params.sheet, category: req.params.category });
@@ -259,9 +199,7 @@ router.post('/login', function(req, res, next) {
 
 router.post('/createExpenseEntry', function(req, res) {
     if (req.user == undefined) return res.end("not logged in");
-    
     //req.body = {date: new Date(), cost: 7, source: "Bakken", sheet: "Expenses", category: "Everyday", name: "Alcohol"};
-
     var rb = req.body,
     date = rb.date,
     cost = parseFloat(rb.cost),
@@ -271,31 +209,71 @@ router.post('/createExpenseEntry', function(req, res) {
     name = rb.name, // Name of Expense (Alcohol) 
     categories = req.user[sheet.toLowerCase()+"Categories"]; // Array of Category in selected sheet
 
+    var expense = findExpense(categories, category, name);
+    expense.entries.push(new ExpenseEntry({
+        date: date,
+        cost: cost,
+        source: source
+    }));
+    expense.total += cost;
+    User.findByIdAndUpdate(req.user._id, {$set: {'expensesCategories': req.user.expensesCategories}}, function(err, doc) {
+        var resObj = {success: true};
+        if (err) {
+            resObj.success = false;                      
+        } else {
+            resObj.cost = cost;
+            resObj.html = `<tr><td>${date}</td><td>${cost}</td><td>${source}</td></tr>`;
+        }
+        return res.end(JSON.stringify(resObj));
+    });
+});
+
+function findExpense(categories, category, name) {
     for (var i = 0; i < categories.length; i++) {
         if (categories[i].name == category) {
             var exs = categories[i].expenses;
             for (var e = 0; e < exs.length; e++) {
                 if (exs[e].name == name) {
-                    exs[e].entries.push(new ExpenseEntry({
-                        date: date,
-                        cost: cost,
-                        source: source
-                    }));
-                    exs[e].total += cost;
-                    User.findByIdAndUpdate(req.user._id, {$set: {'expensesCategories': req.user.expensesCategories}}, function(err, doc) {
-                        var resObj = {success: true};
-                        if (err) {
-                            resObj.success = false;                      
-                        } else {
-                            resObj.cost = cost;
-                            resObj.html = `<tr><td>${date}</td><td>${cost}</td><td>${source}</td></tr>`;
-                        }
-                        return res.end(JSON.stringify(resObj));
-                    });
+                    return exs[e];
                 }
             }
         }
     }
-});
+}
+
+function sortExpenseEntries(entries, sort, ascending) {
+    if (sort == "date") {
+        if (ascending) {
+            entries.sort(function(a, b) {
+                return a.date - b.date;
+            });
+        } else {
+            entries.sort(function(a, b) {
+                return b.date - a.date;
+            });
+        }
+    } else if (sort == "cost") {
+        if (ascending) {
+            entries.sort(function(a, b) {
+                return a.cost - b.cost;
+            });
+        } else {
+            entries.sort(function(a, b) {
+                return b.cost - a.cost;
+            });
+        }     
+    } else if (sort == "source") {
+        if (ascending) {
+            entries.sort(function(a, b) {
+                return a.source.localeCompare(b.source);
+            });
+        } else {
+            entries.sort(function(a, b) {
+                return b.source.localeCompare(a.source);
+            });
+        }
+    }
+    return entries;
+}
 
 module.exports = router;

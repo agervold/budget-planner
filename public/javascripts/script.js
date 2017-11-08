@@ -94,7 +94,7 @@ $('#expenseEntryForm').on('submit', function(e) {
             var newTotal = parseFloat($("#expenseTotal span").text())+obj.cost;
             var len = $("tbody tr").length;
             $("#expenseTotal span").text(newTotal);
-            $("#expenseAvg span").text(newTotal / len);
+            $("#expenseAvg span").text((newTotal / len).toFixed(2));
             //TODO: Potentially increment 'sources'
         } else {
             alert("error");
