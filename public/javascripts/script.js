@@ -83,11 +83,27 @@ $("#expenseInput").on("keyup", function() {
 /*---------------------
 ----------AJAX---------
 ---------------------*/
-// create expense entry
+function ajaxForm(e, t, cb) {
+    e.preventDefault();
+    var data = $(t).serialize();
+    $.post(t.action, data, cb);
+}
+
+// Create Expense
+$("#expenseForm").on("submit", function(e) {
+    ajaxForm(e, this, function(res) {
+        var obj = JSON.parse(res);
+        if (obj.success) {
+            $("tbody").append(obj.html);
+        } else {
+            alert("error");
+        }
+    });
+});
+
+// Create ExpenseEntry
 $('#expenseEntryForm').on('submit', function(e) {
-	e.preventDefault();
-	var data = $(this).serialize();
-	$.post('/createExpenseEntry', data, function(res) {
+    ajaxForm(e, this, function(res) {
         var obj = JSON.parse(res);
         if (obj.success) {
             $("tbody").append(obj.html);
@@ -99,5 +115,5 @@ $('#expenseEntryForm').on('submit', function(e) {
         } else {
             alert("error");
         }
-	});
+    });
 });

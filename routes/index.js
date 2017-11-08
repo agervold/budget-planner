@@ -103,12 +103,10 @@ router.get('/:sheet?/:category?/:expense?', function (req, res) {
                 sortExpenseEntries(expense.entries, sort, ascending);
                 res.render('expense', {user: req.user, sheet: req.params.sheet, category: req.params.category, expense: expense, entries: expense.entries, sort: req.query.sort, ascending: ascending});
             }
+        } else if (req.params.category != undefined) {
+            res.render('table', { user: req.user, expenses: findCategory(req.user[req.params.sheet.toLowerCase()+"Categories"], req.params.category), sheet: req.params.sheet, category: req.params.category });
         } else {
-            if (req.params.category != undefined) {
-                res.render('table', { user: req.user, sheet: req.params.sheet, category: req.params.category });
-            } else {
-                res.render('summary', { user: req.user, sheet: req.params.sheet });                
-            }
+            res.render('summary', { user: req.user });          
         }
         /*
         var cat = req.params.category;
@@ -197,6 +195,33 @@ router.post('/login', function(req, res, next) {
 })
 
 
+router.post('/createExpense', function(req, res) {
+    if (req.user == undefined) return res.end("not logged in");
+    var rb = req.body,
+    name = rb.name, // Name of new Expense
+    sheet = rb.sheet.toLowerCase()+"Categories", // Name of sheet (Expenses)
+    category = rb.category; // Name of category (Everyday)
+    var push = {};
+    var query = {_id: req.user._id};
+    query[sheet+".name"] = category;
+
+    var newExpense = new Expense({
+        name: name
+    });
+    
+    push[sheet+".$.expenses"] = newExpense;
+    User.update(query, {$push: push }, function(err, doc) {
+        var resObj = {success: true};
+        if (err) {
+            resObj.success = false;                      
+        } else {
+            resObj.html = `<tr><td>${name}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td></tr>`;
+        }
+        return res.end(JSON.stringify(resObj));
+    });
+});
+
+
 router.post('/createExpenseEntry', function(req, res) {
     if (req.user == undefined) return res.end("not logged in");
     //req.body = {date: new Date(), cost: 7, source: "Bakken", sheet: "Expenses", category: "Everyday", name: "Alcohol"};
@@ -228,6 +253,14 @@ router.post('/createExpenseEntry', function(req, res) {
     });
 });
 
+function findCategory(categories, name) {
+    for (var i = 0; i < categories.length; i++) {
+        if (categories[i].name == name) {
+            return categories[i].expenses;
+        }
+    }
+}
+
 function findExpense(categories, category, name) {
     for (var i = 0; i < categories.length; i++) {
         if (categories[i].name == category) {
@@ -242,26 +275,16 @@ function findExpense(categories, category, name) {
 }
 
 function sortExpenseEntries(entries, sort, ascending) {
-    if (sort == "date") {
+    if (sort == "date" || sort == "cost") {
         if (ascending) {
             entries.sort(function(a, b) {
-                return a.date - b.date;
+                return a[sort] - b[sort];
             });
         } else {
             entries.sort(function(a, b) {
-                return b.date - a.date;
+                return b[sort] - a[sort];
             });
         }
-    } else if (sort == "cost") {
-        if (ascending) {
-            entries.sort(function(a, b) {
-                return a.cost - b.cost;
-            });
-        } else {
-            entries.sort(function(a, b) {
-                return b.cost - a.cost;
-            });
-        }     
     } else if (sort == "source") {
         if (ascending) {
             entries.sort(function(a, b) {

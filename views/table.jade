@@ -15,16 +15,17 @@ block content
                     th 0DKK
                 - }
         tbody
-            //for expense in user.expenses[category]["2017"]["entries"]
-            for index, expense in user[sheet][category]
-                tr(id=expense)
-                    td.expense=expense
+            for expense in expenses
+                tr(id=expense.name)
+                    td.expense=expense.name
                     - for (var i = 0; i < 12; i++) {
                         td
                             input
                     - }
                     td 0
                     td 0
-            tr
-                td(colspan="15")
-                    button Add New
+    form#expenseForm(action="/createExpense" method="post")
+        input(name="sheet" type="hidden" value="#{sheet}")
+        input(name="category" type="hidden" value="#{category}")
+        input(placeholder="Name" name="name" type="text" required)
+        input(type="submit" value="Add")
