@@ -19,30 +19,32 @@ html
         ul#menu
             li.sheet(id="Summary")
                 a(href="/") Summary
-            li.sheet(id="Income") Income
-                for category in user.incomeCategories
-                    li.category(id="#{category.name}")
-                        a(href="/Income/#{category.name}")
-                            span=category.name
-                        svg(xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', version='1.1', viewbox='0 0 129 129', enable-background='new 0 0 129 129')
-                            g
-                                path(d='m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z', fill='#fff')
-                        ul.sub-menu
-                            for expense in category.expenses
-                                li
-                                    a(href="/Income/#{category.name}/#{expense.name}")=expense.name
-            li.sheet(id="Expenses") Expenses
-                for category in user.expensesCategories
-                    li.category(id="#{category.name}")
-                        a(href="/Expenses/#{category.name}")
-                            span=category.name
-                        svg(xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', version='1.1', viewbox='0 0 129 129', enable-background='new 0 0 129 129')
-                            g
-                                path(d='m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z', fill='#fff')    
-                        ul.sub-menu
-                            for expense in category.expenses
-                                li
-                                    a(href="/Expenses/#{category.name}/#{expense.name}")=expense.name
+            li.sheet(id="Income") 
+                | Income
+                span +
+            for category in user.incomeCategories
+                li.category(id="#{category.name}")
+                    a(href="/Income/#{category.name}")=category.name
+                    svg(xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', version='1.1', viewbox='0 0 129 129', enable-background='new 0 0 129 129')
+                        g
+                            path(d='m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z', fill='#fff')
+                    ul.sub-menu
+                        for expense in category.expenses
+                            li
+                                a(href="/Income/#{category.name}/#{expense.name}")=expense.name
+            li.sheet(id="Expenses") 
+                | Expenses
+                span +
+            for category in user.expensesCategories
+                li.category(id="#{category.name}")
+                    a(href="/Expenses/#{category.name}")=category.name
+                    svg(xmlns='http://www.w3.org/2000/svg', xmlns:xlink='http://www.w3.org/1999/xlink', version='1.1', viewbox='0 0 129 129', enable-background='new 0 0 129 129')
+                        g
+                            path(d='m121.3,34.6c-1.6-1.6-4.2-1.6-5.8,0l-51,51.1-51.1-51.1c-1.6-1.6-4.2-1.6-5.8,0-1.6,1.6-1.6,4.2 0,5.8l53.9,53.9c0.8,0.8 1.8,1.2 2.9,1.2 1,0 2.1-0.4 2.9-1.2l53.9-53.9c1.7-1.6 1.7-4.2 0.1-5.8z', fill='#fff')    
+                    ul.sub-menu
+                        for expense in category.expenses
+                            li
+                                a(href="/Expenses/#{category.name}/#{expense.name}")=expense.name
             //-
                 li.sheet Summary
                 for sheet in sheets
@@ -70,6 +72,5 @@ html
                 i.fa.fa-cog
         #content
             block content
-
     script(src="/javascripts/jquery-3.2.1.min.js")
     script(src="/javascripts/script.js")

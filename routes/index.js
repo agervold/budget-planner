@@ -1,7 +1,7 @@
 var // Dependencies
 express = require('express'),
 passport = require('passport'),
-mongoose = require('mongoose'),
+create = require('./create'),
 // Models
 ExpenseEntry = require('../models/schemas').entry,
 Expense = require('../models/schemas').expense,
@@ -194,67 +194,21 @@ router.post('/login', function(req, res, next) {
             //return res.redirect('/expenses/everyday/Alcohol');
         });    
     })(req, res, next);
-})
+});
+
+
+router.post('/createCategory', function(req, res) {
+    create.category(req, res);
+});
 
 
 router.post('/createExpense', function(req, res) {
-    if (req.user == undefined) return res.end("not logged in");
-    var rb = req.body,
-    name = rb.name, // Name of new Expense
-    sheet = rb.sheet.toLowerCase()+"Categories", // Name of sheet (Expenses)
-    category = rb.category; // Name of category (Everyday)
-    var push = {};
-    var query = {_id: req.user._id};
-    query[sheet+".name"] = category;
-
-    var newExpense = new Expense({
-        name: name
-    });
-    
-    push[sheet+".$.expenses"] = newExpense;
-    User.update(query, {$push: push }, function(err, doc) {
-        var resObj = {success: true};
-        if (err) {
-            resObj.success = false;                      
-        } else {
-            resObj.html = `<tr><td>${name}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td></tr>`;
-        }
-        return res.end(JSON.stringify(resObj));
-    });
+    create.expense(req, res);
 });
 
 
 router.post('/createExpenseEntry', function(req, res) {
-    if (req.user == undefined) return res.end("not logged in");
-    //req.body = {date: new Date(), cost: 7, source: "Bakken", sheet: "Expenses", category: "Everyday", name: "Alcohol"};
-    var rb = req.body,
-    date = rb.date,
-    cost = parseFloat(rb.cost),
-    source = rb.source,
-    comment = rb.comment,
-    sheet = rb.sheet, // Name of sheet (Expenses)
-    category = rb.category, // Name of category (Everyday)
-    name = rb.name, // Name of Expense (Alcohol) 
-    categories = req.user[sheet.toLowerCase()+"Categories"]; // Array of Category in selected sheet
-
-    var expense = findExpense(categories, category, name);
-    expense.entries.push(new ExpenseEntry({
-        date: date,
-        cost: cost,
-        source: source,
-        comment: comment
-    }));
-    expense.total += cost;
-    User.findByIdAndUpdate(req.user._id, {$set: {'expensesCategories': req.user.expensesCategories}}, function(err, doc) {
-        var resObj = {success: true};
-        if (err) {
-            resObj.success = false;                      
-        } else {
-            resObj.cost = cost;
-            resObj.html = `<tr><td>${date}</td><td>${cost}</td><td>${source}</td><td>${comment}</td></tr>`;
-        }
-        return res.end(JSON.stringify(resObj));
-    });
+    create.expenseEntry(req, res);
 });
 
 function getMonthlyTotal(expenses) {

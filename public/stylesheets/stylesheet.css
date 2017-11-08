@@ -23,6 +23,10 @@ body {
     margin: 0;
 }
 
+a {
+    text-decoration: none;
+}
+
 #menu {
     height: 100%;
     height: calc(100% - 50px);
@@ -39,7 +43,7 @@ body {
 #menu > li {
     line-height: 60px;
     text-align: left;
-    padding-left: 18px;
+    padding-left: 25px;
     border-bottom: 1px solid rgba(200,200,200,.5);
     font-size: 18px;
     list-style: none;
@@ -47,12 +51,28 @@ body {
     cursor: pointer;
     position: relative;
 }
+
 #menu .sheet {
     font-style: italic;
     font-weight: bold;
     cursor: initial;
     font-size: 20px;
+    padding-left: 15px;
 }
+
+#newCategoryInput {
+    color: black;
+}
+
+#menu .sheet span { 
+    float: right;
+    margin-right: 21px;
+    font-size: 30px;
+    font-style: initial;
+    font-weight: 100;
+    cursor: pointer;
+}
+
 #menu > li:not(:first-of-type):hover {
     background: rgb(37, 50, 64);
 }
@@ -224,6 +244,13 @@ table input {
 
 button {
     width: 100%;
+}
+
+
+/*CATEGORY*/
+#categoryTable tr:hover {
+    background: rgb(37, 50, 64);
+    cursor: pointer;
 }
 
 

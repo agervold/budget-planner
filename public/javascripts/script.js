@@ -16,10 +16,13 @@ try {
     $(location.pathname.replace("/", "#")).addClass("selected");
 } catch(err) {}
 
-
+var selectedSheet;
 $("#menu li span").on("click", function() {
-    location.href = "http://localhost:8888/" + $(this).text();
+    var t = $(this).parent();
+    selectedSheet = t.attr("id");
+    t.after("<li><input id='newCategoryInput' placeholder='Category'></li>");
 });
+
 $("#menu svg").on("click", function() {
     if ($(this).hasClass("selected")) {
         $(this).removeClass("selected");
@@ -100,6 +103,19 @@ function ajaxForm(e, t, cb) {
     var data = $(t).serialize();
     $.post(t.action, data, cb);
 }
+
+// Create Category
+$("#menu").on("blur", "#newCategoryInput", function() {
+    var input = $(this);
+    $.post('/createCategory', {name: $(this).val(), sheet: selectedSheet}, function(res) {
+        var obj = JSON.parse(res);
+        if (obj.success) {
+            input.parent().html(obj.html);
+        } else {
+            alert("error");
+        }
+    });
+});
 
 // Create Expense
 $("#expenseForm").on("submit", function(e) {
