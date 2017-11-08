@@ -1,7 +1,6 @@
 extends layout
 block content
     - var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
     table
         thead
             tr
@@ -11,19 +10,29 @@ block content
                 th Total
                 th Average
             tr
-                - for (var i = 0; i < 14; i++) {
-                    th 0DKK
-                - }
+                for mt in monthsTotal
+                    th #{mt}
+                        span DKK
+                th 0
+                    span DKK
+                th 0
+                    span DKK
         tbody
             for expense in expenses
                 tr(id=expense.name)
-                    td.expense=expense.name
+                    td.expense=expense.name                        
                     - for (var i = 0; i < 12; i++) {
+                        -
+                            var monthTotal = 0;
+                            for (var e = 0; e < expense.entries.length; e++) {
+                                if (expense.entries[e].date.getMonth() == i) 
+                                monthTotal += expense.entries[e].cost;
+                            }
                         td
-                            input
+                            input(value="#{monthTotal > 0 ? monthTotal : ''}")
                     - }
-                    td 0
-                    td 0
+                    td.expenseTotal=expense.total
+                    td.expenseAvg 0
     form#expenseForm(action="/createExpense" method="post")
         input(name="sheet" type="hidden" value="#{sheet}")
         input(name="category" type="hidden" value="#{category}")

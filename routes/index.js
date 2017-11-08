@@ -104,7 +104,9 @@ router.get('/:sheet?/:category?/:expense?', function (req, res) {
                 res.render('expense', {user: req.user, sheet: req.params.sheet, category: req.params.category, expense: expense, entries: expense.entries, sort: req.query.sort, ascending: ascending});
             }
         } else if (req.params.category != undefined) {
-            res.render('table', { user: req.user, expenses: findCategory(req.user[req.params.sheet.toLowerCase()+"Categories"], req.params.category), sheet: req.params.sheet, category: req.params.category });
+            var expenses = findCategory(req.user[req.params.sheet.toLowerCase()+"Categories"], req.params.category);
+            var monthsTotal = getMonthlyTotal(expenses);
+            res.render('table', { user: req.user, expenses: expenses, monthsTotal: monthsTotal, sheet: req.params.sheet, category: req.params.category });
         } else {
             res.render('summary', { user: req.user });          
         }
@@ -254,6 +256,18 @@ router.post('/createExpenseEntry', function(req, res) {
         return res.end(JSON.stringify(resObj));
     });
 });
+
+function getMonthlyTotal(expenses) {
+    var months = [0,0,0,0,0,0,0,0,0,0,0,0];
+
+    for (var i = 0; i < expenses.length; i++) {
+        var entries = expenses[i].entries;
+        for (var e = 0; e < entries.length; e++) {
+            months[entries[e].date.getMonth()] += entries[e].cost;
+        }
+    }
+    return months;
+}
 
 function findCategory(categories, name) {
     for (var i = 0; i < categories.length; i++) {

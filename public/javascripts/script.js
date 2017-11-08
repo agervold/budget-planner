@@ -52,6 +52,18 @@ $("table input").change(function() {
     }
 });
 
+
+$("tbody tr").each(function() {
+    var c = 0;
+    $(this).find("input").each(function(){
+        if($(this).val() > 0) c++
+    });
+    var avg = (parseFloat($(this).find(".expenseTotal").text()) / c).toFixed(2);
+    if (isNaN(avg)) avg = 0;
+    $(this).find(".expenseAvg").text(avg);
+});
+
+
 $(".expense").on("click", function() {
     var p = location.pathname.split("/");
     location.href = `${location.origin}/${p[1]}/${p[2]}/${$(this).text()}`;
