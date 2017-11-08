@@ -17,7 +17,8 @@ html
     body
         a#username(title="Logout" href="/logout")=user.username
         ul#menu
-            li.sheet(id="Summary") Summary
+            li.sheet(id="Summary")
+                a(href="/") Summary
             li.sheet(id="Income") Income
                 for category in user.incomeCategories
                     li.category(id="#{category.name}")

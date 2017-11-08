@@ -229,6 +229,7 @@ router.post('/createExpenseEntry', function(req, res) {
     date = rb.date,
     cost = parseFloat(rb.cost),
     source = rb.source,
+    comment = rb.comment,
     sheet = rb.sheet, // Name of sheet (Expenses)
     category = rb.category, // Name of category (Everyday)
     name = rb.name, // Name of Expense (Alcohol) 
@@ -238,7 +239,8 @@ router.post('/createExpenseEntry', function(req, res) {
     expense.entries.push(new ExpenseEntry({
         date: date,
         cost: cost,
-        source: source
+        source: source,
+        comment: comment
     }));
     expense.total += cost;
     User.findByIdAndUpdate(req.user._id, {$set: {'expensesCategories': req.user.expensesCategories}}, function(err, doc) {
@@ -247,7 +249,7 @@ router.post('/createExpenseEntry', function(req, res) {
             resObj.success = false;                      
         } else {
             resObj.cost = cost;
-            resObj.html = `<tr><td>${date}</td><td>${cost}</td><td>${source}</td></tr>`;
+            resObj.html = `<tr><td>${date}</td><td>${cost}</td><td>${source}</td><td>${comment}</td></tr>`;
         }
         return res.end(JSON.stringify(resObj));
     });

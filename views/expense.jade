@@ -43,12 +43,14 @@ block content
                 th Date
                 th Cost
                 th Source
+                th Comment
         tbody
             for entry in entries
                 tr
                     td=entry.date.toDateString()
                     td=entry.cost
                     td=entry.source
+                    td=entry.comment
     form#expenseEntryForm(action="/createExpenseEntry" method="post")
         input(name="sheet" type="hidden" value="#{sheet}")
         input(name="category" type="hidden" value="#{category}")
@@ -56,4 +58,5 @@ block content
         input(placeholder="Date" name="date" type="date" required)
         input(placeholder="Cost" name="cost" type="number" required value="15")
         input(placeholder="Source" name="source" type="text" required value="Bakken")
+        input(placeholder="Comment" name="comment" type="text" value="Drinks")
         input(type="submit" value="Add")

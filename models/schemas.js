@@ -6,7 +6,7 @@ var expenseEntrySchema = new Schema({
     date: { type: Date, default: Date.now },
     cost: Number,
     source: String,
-	//expense: { type: Schema.Types.ObjectId, ref: 'Expense' }
+	comment: String
 });
 
 var expenseSchema = new Schema({
