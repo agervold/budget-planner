@@ -13,29 +13,56 @@ if($("#status_message").length) {
     $("#form_login").submit();
 }
 try {
-    $(location.pathname.replace("/", "#")).addClass("selected");
+    //$(location.pathname.replace("/", "#")).addClass("selected");
+    var p = location.pathname.split("/");
+    $("#"+p[p.length-1]).addClass("selected");
 } catch(err) {}
 
 var selectedSheet;
-$("#menu li span").on("click", function() {
+$("#menu .iconPlus").on("click", function() {
     var t = $(this).parent();
     selectedSheet = t.attr("id");
     t.after("<li><input id='newCategoryInput' placeholder='Category'></li>");
 });
 
-$("#menu svg").on("click", function() {
+$("#menu .iconChevron").on("click", function() {
     if ($(this).hasClass("selected")) {
         $(this).removeClass("selected");
     } else {
-        $("#menu svg.selected").removeClass("selected");
+        $("#menu .iconChevron.selected").removeClass("selected");
         $(this).addClass("selected");
     }
 });
 
+$("#enableDelete").click(function() {
+    $("#menu .iconChevron").hide();
+    $("#menu .iconDelete").show();
+});
+$(".iconDelete").click(function() {
+    var t = $(this);
+    if(confirm("Are you sure you want to delete this category?")) {
+        var a = t.siblings("a").attr("href").split("/");
+        var data = {
+            sheet: a[1],
+            name: a[2]
+        }
+        $.post('/removeCategory', data, function(res) {
+            var obj = JSON.parse(res);
+            if (obj.success) {
+                t.parent().remove();
+                $("#menu .iconDelete").hide();
+                $("#menu .iconChevron").show();
+            } else {
+                alert("error");
+            }
+        });
+    }
+});
+/*
 $("#settings .fa-plus").on("click", function() {
     $("#newCategory").toggle();
 });
-
+*/
 
 // Updates the monthly total when an input is changed
 var temp; // Stores value of input before changed
@@ -93,7 +120,6 @@ $("#expenseInput").on("keyup", function() {
         } 
     }
 });
-
 
 /*---------------------
 ----------AJAX---------

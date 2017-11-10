@@ -2,6 +2,7 @@ var // Dependencies
 express = require('express'),
 passport = require('passport'),
 create = require('./create'),
+remove = require('./remove'),
 // Models
 ExpenseEntry = require('../models/schemas').entry,
 Expense = require('../models/schemas').expense,
@@ -209,6 +210,10 @@ router.post('/createExpense', function(req, res) {
 
 router.post('/createExpenseEntry', function(req, res) {
     create.expenseEntry(req, res);
+});
+
+router.post('/removeCategory', function(req, res) {
+    remove.category(req, res);
 });
 
 function getMonthlyTotal(expenses) {

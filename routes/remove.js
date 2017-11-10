@@ -5,25 +5,14 @@ var ExpenseEntry = require('../models/schemas').entry;
 
 var category = function(req, res) {
     if (req.user == undefined) return res.end("not logged in");
-    var rb = req.body,
-    name = rb.name, // Name of new Category
-    sheet = rb.sheet.toLowerCase()+"Categories"; // Name of sheet (Expenses)
-    if (name == "") name = "Unnamed";
+    var sheet = req.body.sheet.toLowerCase()+"Categories", // Name of sheet (Expenses)
+    name = req.body.name, // Name of new Category
+    pull = {};
+    pull[sheet] = {name: name};
 
-    var newCategory = new Category({
-        name: name
-    });
-
-    var push = {};
-    push[sheet] = newCategory;
-
-    User.findByIdAndUpdate(req.user._id, {$push: push }, function(err, doc) {
+    User.findByIdAndUpdate(req.user._id, { $pull: pull }, function(err, doc) {
         var resObj = {success: true};
-        if (err) {
-            resObj.success = false;                      
-        } else {
-            resObj.html = `<a href="/${rb.sheet}/${name}">${name}</a>`;
-        }
+        if (err) resObj.success = false;
         return res.end(JSON.stringify(resObj));
     });
 }

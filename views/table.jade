@@ -1,38 +1,41 @@
 extends layout
 block content
     - var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    table#categoryTable
-        thead
-            tr
-                th(rowspan="2") Monthly totals:
-                for month in months
-                    th=month
-                th Total
-                th Average
-            tr
-                for mt in monthsTotal
-                    th #{mt}
+    if expenses.length != 0
+        table#categoryTable
+            thead
+                tr
+                    th(rowspan="2") Monthly totals:
+                    for month in months
+                        th=month
+                    th Total
+                    th Average
+                tr
+                    for mt in monthsTotal
+                        th #{mt}
+                            span DKK
+                    th 0
                         span DKK
-                th 0
-                    span DKK
-                th 0
-                    span DKK
-        tbody
-            for expense in expenses
-                tr(id=expense.name)
-                    td.expense=expense.name                        
-                    - for (var i = 0; i < 12; i++) {
-                        -
-                            var monthTotal = 0;
-                            for (var e = 0; e < expense.entries.length; e++) {
-                                if (expense.entries[e].date.getMonth() == i) 
-                                monthTotal += expense.entries[e].cost;
-                            }
-                        td
-                            input(value="#{monthTotal > 0 ? monthTotal : ''}")
-                    - }
-                    td.expenseTotal=expense.total
-                    td.expenseAvg 0
+                    th 0
+                        span DKK
+            tbody
+                for expense in expenses
+                    tr(id=expense.name)
+                        td.expense=expense.name                        
+                        - for (var i = 0; i < 12; i++) {
+                            -
+                                var monthTotal = 0;
+                                for (var e = 0; e < expense.entries.length; e++) {
+                                    if (expense.entries[e].date.getMonth() == i) 
+                                    monthTotal += expense.entries[e].cost;
+                                }
+                            td
+                                input(value="#{monthTotal > 0 ? monthTotal : ''}")
+                        - }
+                        td.expenseTotal=expense.total
+                        td.expenseAvg 0
+    else
+        p No expenses found. Add one below.
     form#expenseForm(action="/createExpense" method="post")
         input(name="sheet" type="hidden" value="#{sheet}")
         input(name="category" type="hidden" value="#{category}")
