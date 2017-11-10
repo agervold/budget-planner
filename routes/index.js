@@ -216,6 +216,10 @@ router.post('/removeCategory', function(req, res) {
     remove.category(req, res);
 });
 
+router.post('/removeExpense', function(req, res) {
+    remove.expense(req, res);
+});
+
 function getMonthlyTotal(expenses) {
     var months = [0,0,0,0,0,0,0,0,0,0,0,0];
 

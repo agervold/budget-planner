@@ -20,24 +20,20 @@ var category = function(req, res) {
 var expense = function(req, res) {
     if (req.user == undefined) return res.end("not logged in");
     var rb = req.body,
-    name = rb.name, // Name of new Expense
     sheet = rb.sheet.toLowerCase()+"Categories", // Name of sheet (Expenses)
-    category = rb.category; // Name of category (Everyday)
-    var push = {};
-    var query = {_id: req.user._id};
-    query[sheet+".name"] = category;
-
-    var newExpense = new Expense({
-        name: name
-    });
+    category = rb.category, // Name of category (Everyday)
+    name = rb.name, // Name of Expense
+    query = {_id: req.user._id},
+    pull = {};
     
-    push[sheet+".$.expenses"] = newExpense;
-    User.update(query, {$push: push }, function(err, doc) {
+    query[sheet+".name"] = category;
+    pull[sheet+".$.expenses"] = {name: name};
+
+    User.update(query, { $pull: pull }, function(err, doc) {
         var resObj = {success: true};
         if (err) {
-            resObj.success = false;                      
-        } else {
-            resObj.html = `<tr><td>${name}</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td>0</td><td>0</td></tr>`;
+            resObj.success = false;
+            resObj.err = err.message;
         }
         return res.end(JSON.stringify(resObj));
     });

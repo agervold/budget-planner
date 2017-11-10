@@ -248,11 +248,6 @@ table input {
     text-align: inherit;
 }
 
-button {
-    width: 100%;
-}
-
-
 /*CATEGORY*/
 #categoryTable tr:hover {
     background: rgb(37, 50, 64);
@@ -275,6 +270,23 @@ button {
 #expenseInfo h6 span {
     font-size: 20px;
     display: block;
+}
+
+#expenseSrcs {
+    border-right: 1px solid rgba(200,200,200,.3);
+    margin-right: 25px;
+}
+
+#expenseRemove { 
+    background: 0;
+    border: 1px solid rgba(200,200,200,.5);
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    vertical-align: text-bottom;
+}
+#expenseRemove:hover {
+    background: rgba(200,200,200,.3)
 }
 
 #expenseTable td {

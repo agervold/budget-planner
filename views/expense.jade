@@ -5,7 +5,8 @@ block content
         h6#expenseTotal Total:
             span=expense.total
         h6#expenseAvg Average:
-            span=(expense.total / entries.length).toFixed(2)
+            //-span=(expense.total / entries.length).toFixed(2)
+            span=isNaN((expense.total / entries.length).toFixed(2)) ? 0 : (expense.total / entries.length).toFixed(2)
         -
             var srcs = [];
             for (var i = 0; i < entries.length; i++) {
@@ -15,6 +16,7 @@ block content
             }
         h6#expenseSrcs Sources:
             span=srcs.length
+        button#expenseRemove Remove
     #expenseFilter
         select#expenseSort
             if sort == "date" || sort == undefined

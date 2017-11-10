@@ -58,6 +58,19 @@ $(".iconDelete").click(function() {
         });
     }
 });
+
+$("#expenseRemove").click(function() {
+    var p = location.pathname.split("/");
+    var data = {sheet: p[1], category: p[2], name: p[3]};
+    $.post('/removeExpense', data, function(res) {
+        var obj = JSON.parse(res);
+        if (obj.success) {
+            location.href = location.href.replace("/"+data.name, "");
+        } else {
+            alert(obj.err);
+        }
+    });
+});
 /*
 $("#settings .fa-plus").on("click", function() {
     $("#newCategory").toggle();
