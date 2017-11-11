@@ -43,13 +43,10 @@ var expenseEntry = function(req, res) {
     if (req.user == undefined) return res.end("not logged in");
     //req.body = {date: new Date(), cost: 7, source: "Bakken", sheet: "Expenses", category: "Everyday", name: "Alcohol"};
     var rb = req.body,
-    date = rb.date,
-    cost = parseFloat(rb.cost),
-    source = rb.source,
-    comment = rb.comment,
     sheet = rb.sheet, // Name of sheet (Expenses)
     category = rb.category, // Name of category (Everyday)
     name = rb.name, // Name of Expense (Alcohol) 
+    ids = rb.ids,
     categories = req.user[sheet.toLowerCase()+"Categories"]; // Array of Category in selected sheet
 
     var expense = findExpense(categories, category, name);

@@ -220,6 +220,10 @@ router.post('/removeExpense', function(req, res) {
     remove.expense(req, res);
 });
 
+router.post('/removeEntry', function(req, res) {
+    remove.expenseEntry(req, res);
+});
+
 function getMonthlyTotal(expenses) {
     var months = [0,0,0,0,0,0,0,0,0,0,0,0];
 

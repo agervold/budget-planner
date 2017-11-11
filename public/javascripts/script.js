@@ -7,11 +7,13 @@ $.ajax({
     }
 });
 */
+/*
 if($("#status_message").length) {
     $("#form_register").submit();
 } else {
     $("#form_login").submit();
 }
+*/
 try {
     //$(location.pathname.replace("/", "#")).addClass("selected");
     var p = location.pathname.split("/");
@@ -132,6 +134,41 @@ $("#expenseInput").on("keyup", function() {
             }
         } 
     }
+});
+
+$("#expenseTable").on("click", "tbody tr", function() {
+    $(this).toggleClass("selected");
+    var len = $("#expenseTable tbody tr.selected").length;
+    if (len > 0) {
+        $("#expenseEntryRemove").removeClass("disabled");
+        if (len > 1) {
+            $("#expenseEntryRemove").text("Remove Entries");
+        } else {
+            $("#expenseEntryRemove").text("Remove Entry");
+        }
+    } else {
+        $("#expenseEntryRemove").addClass("disabled");
+    }
+});
+
+$("#expenseEntryRemove").click(function() {
+    if ($(this).hasClass("disabled")) return;
+    var ids = [];
+
+    $("#expenseTable tr.selected").each(function() {
+        ids.push($(this).find(".entryId").text());
+    });
+
+    var p = location.pathname.split("/");
+    var data = {sheet: p[1], category: p[2], name: p[3], ids: ids};
+    $.post('/removeEntry', data, function(res) {
+        var obj = JSON.parse(res);
+        if (obj.success) {
+            location.href = location.href.replace("/"+data.name, "");
+        } else {
+            alert(obj.err);
+        }
+    });
 });
 
 /*---------------------

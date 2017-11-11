@@ -17,6 +17,7 @@ block content
         h6#expenseSrcs Sources:
             span=srcs.length
         button#expenseRemove Remove
+        button#expenseEntryRemove.disabled Remove Entry
     #expenseFilter
         select#expenseSort
             if sort == "date" || sort == undefined
@@ -53,6 +54,7 @@ block content
                     td=entry.cost
                     td=entry.source
                     td=entry.comment
+                    td.entryId=entry._id
     form#expenseEntryForm(action="/createExpenseEntry" method="post")
         input(name="sheet" type="hidden" value="#{sheet}")
         input(name="category" type="hidden" value="#{category}")

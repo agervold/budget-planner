@@ -277,7 +277,7 @@ table input {
     margin-right: 25px;
 }
 
-#expenseRemove { 
+#expenseRemove, #expenseEntryRemove { 
     background: 0;
     border: 1px solid rgba(200,200,200,.5);
     padding: 8px 12px;
@@ -285,12 +285,31 @@ table input {
     cursor: pointer;
     vertical-align: text-bottom;
 }
-#expenseRemove:hover {
+#expenseRemove:hover, #expenseEntryRemove:not(.disabled):hover {
     background: rgba(200,200,200,.3)
+}
+#expenseEntryRemove {
+    margin-left: 25px;
+    width: 120px;
+}
+#expenseEntryRemove.disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+#expenseEntryRemove.disabled:focus {
+    outline: none;
+}
+
+#expenseTable tr.selected {
+    background: rgb(47, 60, 74);
 }
 
 #expenseTable td {
     padding: 10px;
+}
+
+.entryId {
+    display: none;
 }
 
 select, select option, #expenseInput, #expenseEntryForm input {
