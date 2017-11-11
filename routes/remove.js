@@ -41,31 +41,49 @@ var expense = function(req, res) {
 
 var expenseEntry = function(req, res) {
     if (req.user == undefined) return res.end("not logged in");
-    //req.body = {date: new Date(), cost: 7, source: "Bakken", sheet: "Expenses", category: "Everyday", name: "Alcohol"};
-    var rb = req.body,
+    var rb = JSON.parse(req.body.data),
     sheet = rb.sheet, // Name of sheet (Expenses)
     category = rb.category, // Name of category (Everyday)
     name = rb.name, // Name of Expense (Alcohol) 
-    ids = rb.ids,
-    categories = req.user[sheet.toLowerCase()+"Categories"]; // Array of Category in selected sheet
+    ids = rb.ids; // Ids of Entries to be deleted
 
-    var expense = findExpense(categories, category, name);
-    expense.entries.push(new ExpenseEntry({
-        date: date,
-        cost: cost,
-        source: source,
-        comment: comment
-    }));
-    expense.total += cost;
-    User.findByIdAndUpdate(req.user._id, {$set: {'expensesCategories': req.user.expensesCategories}}, function(err, doc) {
-        var resObj = {success: true};
-        if (err) {
-            resObj.success = false;                      
-        } else {
-            resObj.cost = cost;
-            resObj.html = `<tr><td>${date}</td><td>${cost}</td><td>${source}</td><td>${comment}</td></tr>`;
+    var savedI;
+    var savedEx;
+
+    User.findById(req.user._id, function(err, doc) {
+        var cats = doc[sheet.toLowerCase()+"Categories"];
+        for (var i = 0; i < cats.length; i++) {
+            if (cats[i].name == category) {
+                savedI = i;
+                var expenses = cats[i].expenses;
+                for (var ex = 0; ex < expenses.length; ex++) {
+                    if (expenses[ex].name == name) {
+                        savedEx = ex;
+                        var entries = expenses[ex].entries;
+                        var newEntries = [];
+                        for (var e = 0; e < entries.length; e++) {
+                            var dontDelete = true;
+                            for (var id = 0; id < ids.length; id++) {
+                                if (ids[id] == entries[e]._id) {
+                                    dontDelete = false;
+                                    break;
+                                }
+                            }
+                            if (dontDelete) newEntries.push(entries[e]);
+                        }
+                    }
+                }           
+            } 
         }
-        return res.end(JSON.stringify(resObj));
+        doc[sheet.toLowerCase()+"Categories"][savedI]["expenses"][savedEx]["entries"] = newEntries;
+        User.findByIdAndUpdate(req.user._id, { $set: { "expensesCategories": doc[sheet.toLowerCase()+"Categories"]} }, function(err, newUser) {
+            var resObj = {success: true};
+            if (err) {
+                resObj.success = false;
+                resObj.err = err.message;
+            }
+            return res.end(JSON.stringify(resObj));
+        });
     });
 }
 

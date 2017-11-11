@@ -7,13 +7,13 @@ $.ajax({
     }
 });
 */
-/*
+
 if($("#status_message").length) {
     $("#form_register").submit();
 } else {
     $("#form_login").submit();
 }
-*/
+
 try {
     //$(location.pathname.replace("/", "#")).addClass("selected");
     var p = location.pathname.split("/");
@@ -161,12 +161,13 @@ $("#expenseEntryRemove").click(function() {
 
     var p = location.pathname.split("/");
     var data = {sheet: p[1], category: p[2], name: p[3], ids: ids};
-    $.post('/removeEntry', data, function(res) {
+    var d = {data: JSON.stringify(data)};
+    $.post('/removeEntry', d, function(res) {
         var obj = JSON.parse(res);
         if (obj.success) {
-            location.href = location.href.replace("/"+data.name, "");
+            $("#expenseTable tr.selected").remove();
         } else {
-            alert(obj.err);
+            alert(obj.err);          
         }
     });
 });
