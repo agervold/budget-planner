@@ -52,6 +52,7 @@ var expenseEntry = function(req, res) {
 
     User.findById(req.user._id, function(err, doc) {
         var cats = doc[sheet.toLowerCase()+"Categories"];
+        var decrement = 0;
         for (var i = 0; i < cats.length; i++) {
             if (cats[i].name == category) {
                 savedI = i;
@@ -66,6 +67,7 @@ var expenseEntry = function(req, res) {
                             for (var id = 0; id < ids.length; id++) {
                                 if (ids[id] == entries[e]._id) {
                                     dontDelete = false;
+                                    decrement += entries[e].cost;
                                     break;
                                 }
                             }
@@ -75,9 +77,10 @@ var expenseEntry = function(req, res) {
                 }           
             } 
         }
+        doc[sheet.toLowerCase()+"Categories"][savedI]["expenses"][savedEx]["total"] -= decrement;
         doc[sheet.toLowerCase()+"Categories"][savedI]["expenses"][savedEx]["entries"] = newEntries;
         User.findByIdAndUpdate(req.user._id, { $set: { "expensesCategories": doc[sheet.toLowerCase()+"Categories"]} }, function(err, newUser) {
-            var resObj = {success: true};
+            var resObj = {success: true, dec: decrement};
             if (err) {
                 resObj.success = false;
                 resObj.err = err.message;

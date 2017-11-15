@@ -166,6 +166,10 @@ $("#expenseEntryRemove").click(function() {
         var obj = JSON.parse(res);
         if (obj.success) {
             $("#expenseTable tr.selected").remove();
+            var newTotal = parseFloat($("#expenseTotal span").text())-obj.dec;
+            var len = $("tbody tr").length;
+            $("#expenseTotal span").text(newTotal);
+            $("#expenseAvg span").text((newTotal / len).toFixed(2));
         } else {
             alert(obj.err);          
         }
