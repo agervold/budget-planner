@@ -29,7 +29,7 @@ a {
 
 #menu {
     height: 100%;
-    height: calc(100% - 50px);
+    /*height: calc(100% - 50px);*/
     position: absolute;
     top: 0;
     left: 0;
@@ -248,6 +248,50 @@ table input {
     text-align: inherit;
 }
 
+/*CATEGORY & EXPENSE*/
+#infoactions {
+    padding: 20px 0;
+}
+
+#info, #actions {
+    display: inline-block;
+}
+
+#info {
+    border-right: 1px solid rgba(200,200,200,.3);
+    margin-right: 25px;
+}
+
+#info h1, #info h6 {
+    display: inline-block;
+    margin: 0;
+}
+#info h6 {
+    width: 80px;
+    text-align: center;
+    color: rgb(150,150,150)
+}
+
+#info h6 span {
+    font-size: 20px;
+    display: block;
+}
+
+#filter > * {
+    background: 0;
+    border: 0;
+    color: white;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+#filter #sort {
+    width: 63px;
+}
+#filter #ascending {
+    width: 115px;
+    margin: 0 20px 10px;
+}
+
 /*CATEGORY*/
 #categoryTable tr:hover {
     background: rgb(37, 50, 64);
@@ -256,28 +300,7 @@ table input {
 
 
 /*EXPENSE*/
-#expenseInfo h1 {
-    display: inline-block;
-}
-
-#expenseInfo h6 {
-    display: inline-block;
-    width: 80px;
-    text-align: center;
-    color: rgb(150,150,150)
-}
-
-#expenseInfo h6 span {
-    font-size: 20px;
-    display: block;
-}
-
-#expenseSrcs {
-    border-right: 1px solid rgba(200,200,200,.3);
-    margin-right: 25px;
-}
-
-#expenseRemove, #expenseEntryRemove { 
+.button { 
     background: 0;
     border: 1px solid rgba(200,200,200,.5);
     padding: 8px 12px;
@@ -285,20 +308,23 @@ table input {
     cursor: pointer;
     vertical-align: text-bottom;
 }
-#expenseRemove:hover, #expenseEntryRemove:not(.disabled):hover {
+.button:hover:not(.disabled):hover {
     background: rgba(200,200,200,.3)
 }
-#expenseEntryRemove {
-    margin-left: 25px;
-    width: 120px;
-}
-#expenseEntryRemove.disabled {
+.button.disabled {
     opacity: .5;
     cursor: not-allowed;
 }
-#expenseEntryRemove.disabled:focus {
+.button.disabled:focus {
     outline: none;
 }
+.button:first-of-type {
+    margin-right: 25px;
+}
+#expenseEntryRemove {
+    width: 120px;
+}
+
 
 #expenseTable tr.selected {
     background: rgb(47, 60, 74);

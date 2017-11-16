@@ -24,7 +24,7 @@ html
             for category in user.incomeCategories
                 li.category(id="#{category.name}")
                     a(href="/Income/#{category.name}")=category.name
-                    img.iconDelete(src="/images/delete.png")
+                    //-img.iconDelete(src="/images/delete.png")
                     if category.expenses.length != 0
                         img.iconChevron(src="/images/chevron.png")
                         ul.sub-menu
@@ -37,7 +37,7 @@ html
             for category in user.expensesCategories
                 li.category(id="#{category.name}")
                     a(href="/Expenses/#{category.name}")=category.name
-                    img.iconDelete(src="/images/delete.png")
+                    //-img.iconDelete(src="/images/delete.png")
                     if category.expenses.length != 0
                         img.iconChevron(src="/images/chevron.png")
                         ul.sub-menu
@@ -60,9 +60,9 @@ html
                                     each i, expense in user[sheet][category]
                                         li
                                             a(href="/#{sheet}/#{category}/#{expense}")=expense
-        #settings
-            img#enableDelete(src="/images/delete.png")
-            //-
+        //-
+            #settings
+                img#enableDelete(src="/images/delete.png")
                 #newCategory
                     input(type="text" placeholder="Category")
                     button +

@@ -1,25 +1,28 @@
 extends layout
 block content
-    #expenseInfo
-        h1=expense.name
-        h6#expenseTotal Total:
-            span=expense.total
-        h6#expenseAvg Average:
-            //-span=(expense.total / entries.length).toFixed(2)
-            span=isNaN((expense.total / entries.length).toFixed(2)) ? 0 : (expense.total / entries.length).toFixed(2)
-        -
-            var srcs = [];
-            for (var i = 0; i < entries.length; i++) {
-                if (srcs.indexOf(entries[i].source) < 0) {
-                    srcs.push(entries[i].source);
+    #infoactions
+        #info
+            h1=expense.name
+            h6#expenseTotal Total:
+                span=expense.total
+            h6#expenseAvg Average:
+                //-span=(expense.total / entries.length).toFixed(2)
+                span=isNaN((expense.total / entries.length).toFixed(2)) ? 0 : (expense.total / entries.length).toFixed(2)
+            -
+                var freq;
+                var srcs = {};
+                for (var i = 0; i < entries.length; i++) {
+                    var s = entries[i].source;
+                    srcs[s] == undefined ? srcs[s] = 1 : srcs[s]++;
+                    if (srcs[s] > srcs[freq] || freq == undefined) freq = s;
                 }
-            }
-        h6#expenseSrcs Sources:
-            span=srcs.length
-        button#expenseRemove Remove
-        button#expenseEntryRemove.disabled Remove Entry
-    #expenseFilter
-        select#expenseSort
+            h6#expenseSrcs Sources:
+                span=Object.keys(srcs).length
+        #actions
+            button#expenseRemove.button Remove
+            button#expenseEntryRemove.button.disabled Remove Entry
+    #filter
+        select#sort
             if sort == "date" || sort == undefined
                 option(selected) Date
                 option Cost
@@ -32,7 +35,7 @@ block content
                 option Date
                 option Cost
                 option(selected) Source
-        select#expenseAscending
+        select#ascending
             if ascending == 1
                 option(selected) Ascending
                 option Descending
@@ -64,3 +67,5 @@ block content
         input(placeholder="Source" name="source" type="text" required value="Bakken")
         input(placeholder="Comment" name="comment" type="text" value="Drinks")
         input(type="submit" value="Add")
+    #expenseStatistics
+        p Most frequent source: #{freq}

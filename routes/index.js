@@ -107,7 +107,7 @@ router.get('/:sheet?/:category?/:expense?', function (req, res) {
         } else if (req.params.category != undefined) {
             var expenses = findCategory(req.user[req.params.sheet.toLowerCase()+"Categories"], req.params.category);
             var monthsTotal = getMonthlyTotal(expenses);
-            res.render('table', { user: req.user, expenses: expenses, monthsTotal: monthsTotal, sheet: req.params.sheet, category: req.params.category });
+            res.render('category', { user: req.user, expenses: expenses, monthsTotal: monthsTotal, sheet: req.params.sheet, category: req.params.category });
         } else {
             res.render('summary', { user: req.user });          
         }

@@ -1,0 +1,178 @@
+- var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+extends layout
+block content
+    #infoactions
+        #info
+            h1=category
+            h6#expenseTotal Total:
+                span 0
+            h6#expenseAvg Average:
+                //-span=(expense.total / entries.length).toFixed(2)
+                //span=isNaN((expense.total / entries.length).toFixed(2)) ? 0 : (expense.total / entries.length).toFixed(2)
+
+            h6#categoryExpenses Expenses:
+                span=expenses.length
+        #actions
+            button#categoryRemove.button Remove
+            button#categoryAddExpense.button Add Expense
+    if expenses.length != 0
+        #filter
+            select#sort
+                if sort == "date" || sort == undefined
+                    option(selected) Date
+                    option Cost
+                    option Source
+                else if sort == "cost"
+                    option Date
+                    option(selected) Cost
+                    option Source
+                else if sort == "source"
+                    option Date
+                    option Cost
+                    option(selected) Source
+            select#ascending
+                if ascending == 1
+                    option(selected) Ascending
+                    option Descending
+                else
+                    option Ascending
+                    option(selected) Descending
+            input#expenseInput(placeholder="Search for Expense")
+        table#categoryTable
+            thead
+                tr
+                    th(rowspan="2") Monthly totals:
+                    for month in months
+                        th=month
+                    th Total
+                    th Average
+                tr
+                    - var monthsTotalCombined = 0;
+                    - var monthsTotalCount = 0;
+                    for mt in monthsTotal
+                        - monthsTotalCombined += mt
+                        th=mt
+                            span DKK
+                        - if(mt > 0) monthsTotalCount++;
+                    th=monthsTotalCombined
+                        span DKK
+                    th=(monthsTotalCombined / monthsTotalCount).toFixed(2)
+                        span DKK
+            tbody
+                -
+                    var chartData = [];
+                    for (var i = 0; i < 12; i++) {
+                        chartData.push([months[i]]);
+                    }
+                    
+                for expense, index in expenses
+                    tr(id=expense.name)
+                        td.expense=expense.name                                        
+                        - for (var i = 0; i < 12; i++) {
+                            -
+                                var monthTotal = 0;
+                                for (var e = 0; e < expense.entries.length; e++) {
+                                    if (expense.entries[e].date.getMonth() == i) 
+                                    monthTotal += expense.entries[e].cost;
+                                }
+                                chartData[i][index+1] = monthTotal;
+                            td
+                                input(value="#{monthTotal > 0 ? monthTotal : ''}")
+                        
+                        - }
+                        td.expenseTotal=expense.total
+                        td.expenseAvg 0     
+    else
+        p No expenses found. Add one below.
+    //-
+        form#expenseForm(action="/createExpense" method="post")
+            input(name="sheet" type="hidden" value="#{sheet}")
+            input(name="category" type="hidden" value="#{category}")
+            input(placeholder="Name" name="name" type="text" required)
+            input(type="submit" value="Add")
+    //-#chart_months
+    //-#chart_expenses
+    #chart_stacked
+block scripts
+    script(src="/javascripts/categoryScript.js")
+    script(src="https://www.gstatic.com/charts/loader.js")
+    script.
+        // Load the Visualization API and the corechart package.
+        google.charts.load('current', {'packages':['corechart']});
+
+        // Set a callback to run when the Google Visualization API is loaded.
+        google.charts.setOnLoadCallback(drawChart);
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        // Callback that creates and populates a data table,
+        // instantiates the pie chart, passes in the data and
+        // draws it.
+        function drawChart() {
+            var expenses = !{JSON.stringify(expenses)};
+            /*
+            // Create the data table.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Month');
+            data.addColumn('number', 'Total');
+            var info = [];
+            var totals = !{JSON.stringify(monthsTotal)};
+            for (var m = 0; m < months.length; m++) {
+                info.push([months[m], totals[m]]);
+            }
+            data.addRows(info);
+
+            // Set chart options
+            var options = {
+                'title':'Months',
+                'width':400,
+                'height':300
+            };
+
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.PieChart(document.getElementById('chart_months'));
+            chart.draw(data, options);
+
+
+            // Create the data table.
+            data = new google.visualization.DataTable();
+            data.addColumn('string', 'Expense');
+            data.addColumn('number', 'Total');
+            info = [];
+            
+            for (var e = 0; e < expenses.length; e++) {
+                info.push([expenses[e].name, expenses[e].total]);
+            }
+            data.addRows(info);
+            
+            options.title = "Expenses";
+
+            // Instantiate and draw our chart, passing in some options.
+            chart = new google.visualization.PieChart(document.getElementById('chart_expenses'));
+            chart.draw(data, options);
+            */
+
+            var genre = ['Genre'];
+            for (var e = 0; e < expenses.length; e++) {
+                genre.push(expenses[e].name);
+            }
+            genre.push({ role: 'annotation' });
+
+            var chartData = !{JSON.stringify(chartData)};
+            for (var i = 0; i < 12; i++) {
+                chartData[i].push('');
+            }
+            chartData.unshift(genre);
+            data = google.visualization.arrayToDataTable(chartData);
+
+            options = {
+                width: 800,
+                height: 400,
+                legend: { position: 'top', maxLines: 3, textStyle: {color: 'white'}},
+                bar: { groupWidth: '75%' },
+                isStacked: true,
+                vAxis: {textStyle: {color: 'white'}},
+                hAxis: {textStyle: {color: 'white'}}
+            };
+
+            chart = new google.visualization.ColumnChart(document.getElementById('chart_stacked'));
+            chart.draw(data, options);
+        }
