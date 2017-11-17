@@ -1,3 +1,4 @@
+// Create Expense
 $("#categoryAddExpense").click(function() {
     var name = prompt("Name");
     if (name) {
@@ -15,21 +16,32 @@ $("#categoryAddExpense").click(function() {
 
 // Remove Category
 $("#categoryRemove").click(function() {
-    var p = location.pathname.split("/");
     if(confirm("Are you sure you want to delete this category?")) {
-        var data = {
-            sheet: p[1],
-            name: p[2]
-        }
-        $.post('/removeCategory', data, function(res) {
-            var obj = JSON.parse(res);
-            if (obj.success) {
+        var p = location.pathname.split("/");
+        $.post('/removeCategory', {sheet: p[1], name: p[2]}, function(res) {
+            if (JSON.parse(res).success) {
                 $("#"+p[2]).remove();
                 $("#content").html("<p>The Category was successfully deleted.");
             } else {
                 alert("error");
             }
         });
+    }
+});
+
+// Search for Expense
+var tr = $("tbody tr");
+$("#categorySearch").on("keyup", function() {
+    filter = $(this).val().toUpperCase();
+    for (var i = 0; i < tr.length; i++) {
+        var td = $(tr[i]).find("td")[0];
+        if (td) {
+            if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                $(tr[i]).show();
+            } else {
+                $(tr[i]).hide();
+            }
+        } 
     }
 });
 

@@ -288,7 +288,7 @@ table input {
     width: 63px;
 }
 #filter #ascending {
-    width: 115px;
+    width: 126px;
     margin: 0 20px 10px;
 }
 
@@ -307,6 +307,7 @@ table input {
     border-radius: 5px;
     cursor: pointer;
     vertical-align: text-bottom;
+    margin-right: 25px;
 }
 .button:hover:not(.disabled):hover {
     background: rgba(200,200,200,.3)
@@ -317,9 +318,6 @@ table input {
 }
 .button.disabled:focus {
     outline: none;
-}
-.button:first-of-type {
-    margin-right: 25px;
 }
 #expenseEntryRemove {
     width: 120px;
