@@ -7,7 +7,7 @@ block content
                 span=expense.total
             h6#expenseAvg Average:
                 //-span=(expense.total / entries.length).toFixed(2)
-                span=isNaN((expense.total / entries.length).toFixed(2)) ? 0 : (expense.total / entries.length).toFixed(2)
+                span=isNaN((expense.total / entries.length).toFixed(0)) ? 0 : (expense.total / entries.length).toFixed(0)
             -
                 var freq;
                 var srcs = {};

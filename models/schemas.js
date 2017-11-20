@@ -24,7 +24,9 @@ var User = new Schema({
     username: String,
     incomeCategories: { type: Array, default: [] },
     expensesCategories: { type: Array, default: [] },
-    date: { type: Date, default: Date.now }
+    date: { type: Date, default: Date.now },
+    income: { type: Array, default: [0,0,0,0,0,0,0,0,0,0,0,0,0] },
+    expenses: { type: Array, default: [0,0,0,0,0,0,0,0,0,0,0,0,0] }
 });
 
 User.plugin(passportLocalMongoose);

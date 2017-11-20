@@ -85,7 +85,7 @@ a {
     display: none;
 }
 
-#menu > li:not(:first-of-type):hover {
+#menu .sheet:first-of-type:hover, #menu .category:not(.selected):hover {
     background: rgb(37, 50, 64);
 }
 #menu > li.selected {
@@ -250,7 +250,7 @@ table input {
 
 /*CATEGORY & EXPENSE*/
 #infoactions {
-    padding: 20px 0;
+    margin-bottom: 20px;
 }
 
 #info, #actions {
@@ -323,6 +323,13 @@ table input {
     width: 120px;
 }
 
+#expenseTable {
+    height: 533px;
+    width: 710px;
+    border-radius: 5px;
+    display: inline-block;
+    overflow: auto;
+}
 
 #expenseTable tr.selected {
     background: rgb(47, 60, 74);
@@ -338,4 +345,15 @@ table input {
 
 select, select option, #expenseInput, #expenseEntryForm input {
     color: black;
+}
+
+#expenseEntryform { 
+    border: 1px solid rgba(200,200,200,.5);
+    border-radius: 5px;
+    display: inline-block;
+}
+
+#expenseEntryForm input {
+    border-right: 1px solid rgba(200,200,200,.5);
+    padding-left: 5px;
 }

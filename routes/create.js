@@ -75,7 +75,10 @@ var expenseEntry = function(req, res) {
         comment: comment
     }));
     expense.total += cost;
-    User.findByIdAndUpdate(req.user._id, {$set: {'expensesCategories': req.user.expensesCategories}}, function(err, doc) {
+    var inc = {};
+    inc[`${sheet.toLowerCase()}.${new Date(date).getMonth()}`] = cost;
+    inc[`${sheet.toLowerCase()}.12`] = cost;
+    User.findByIdAndUpdate(req.user._id, {$set: {'expensesCategories': req.user.expensesCategories}, $inc: inc}, function(err, doc) {
         var resObj = {success: true};
         if (err) {
             resObj.success = false;                      

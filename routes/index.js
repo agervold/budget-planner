@@ -4,10 +4,11 @@ passport = require('passport'),
 create = require('./create'),
 remove = require('./remove'),
 // Models
-ExpenseEntry = require('../models/schemas').entry,
-Expense = require('../models/schemas').expense,
-Category = require('../models/schemas').category,
-User = require('../models/schemas').user,
+Models = require('../models/schemas'),
+ExpenseEntry = Models.entry,
+Expense = Models.expense,
+Category = Models.category,
+User = Models.user,
 
 router = express.Router();
 
@@ -126,7 +127,7 @@ router.get('/:sheet?/:category?/:expense?', function (req, res) {
 //var defaultExpensesCategories = ["Everyday", "Entertainment", "Utilities", "Home", "Insurance", "Technology", "Transportation", "Travel", "Education", "Other"];
 var defaultIncomeCategories = {
     "Wages": ["Paycheck", "Tips", "Commision"],
-    "Other": ["Gifts", "Refunds", "Dividens"]
+    "Other": ["Gifts", "Refunds", "Dividends"]
 };
 var defaultExpensesCategories = {
     "Everyday": ["Groceries", "Takeaway", "Alcohol"],

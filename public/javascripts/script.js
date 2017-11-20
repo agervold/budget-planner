@@ -32,7 +32,7 @@ $("tbody tr").each(function() {
     $(this).find("input").each(function(){
         if($(this).val() > 0) c++
     });
-    var avg = (parseFloat($(this).find(".expenseTotal").text()) / c).toFixed(2);
+    var avg = (parseFloat($(this).find(".expenseTotal").text()) / c).toFixed(0);
     if (isNaN(avg)) avg = 0;
     $(this).find(".expenseAvg").text(avg);
 });

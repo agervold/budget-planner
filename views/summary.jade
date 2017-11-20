@@ -12,25 +12,45 @@ block content
                 th Average
             tr
                 td Income
-                - for (var i = 0; i < 14; i++) {
-                        td 0
-                - }
+                - count = 0;
+                for inc, i in user.income
+                    td=inc
+                    - if(inc > 0 && i != 12) count++
+                td=user.income[12] / count || 0
             tr
                 td Expenses
-                - for (var i = 0; i < 14; i++) {
-                        td 0
-                - }
+                - count = 0;
+                for ex, i in user.expenses
+                    td=ex
+                    - if(ex > 0 && i != 12) count++
+                td=((user.expenses[12] / count) || 0).toFixed(0)
             tr
                 td Net savings
-                - for (var i = 0; i < 14; i++) {
-                        td 0
+                - var nets = [];
+                - var val = [0,0];
+                - for (var i = 0; i < 13; i++) {
+                    -net = user.income[i] - user.expenses[i];
+                    -nets.push(net);
+                    -if ((user.income[i] > 0 || user.expenses[i] > 0) && i != 12) {
+                        -val[0] += net;
+                        -val[1]++;
+                    -}
+                    td=net
                 - }
+                td=val[0] / val[1]
             tr
+                - var start = 0;
                 td Ending balance
-                - for (var i = 0; i < 14; i++) {
-                        td 0
+                - for (var i = 0; i < 12; i++) {
+                    - start += nets[i]
+                    td=start
                 - }
             
     #chart_div
+    script.
+        var months = !{JSON.stringify(months)};
+        var income = !{JSON.stringify(user.income)};
+        var expenses = !{JSON.stringify(user.expenses)};
+        var nets = !{JSON.stringify(nets)};
     script(src="https://www.gstatic.com/charts/loader.js")
     script(src="javascripts/chart.js")

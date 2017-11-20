@@ -7,27 +7,21 @@ google.charts.setOnLoadCallback(drawChart);
 // Callback that creates and populates a data table,
 // instantiates the pie chart, passes in the data and
 // draws it.
+var d = [['Month', 'Income', 'Expenses', "Ending Balance"]];
+var n = 0;
+for (var i = 0; i < 12; i++) {
+    n += nets[i];
+    d.push([months[i], income[i], expenses[i], n]);
+}
 function drawChart() {
-    // Create the data table.
-    var data = new google.visualization.DataTable();
-    data.addColumn('string', 'Category');
-    data.addColumn('number', 'Dollars');
-    data.addRows([
-        ['Mushrooms', 3],
-        ['Onions', 1],
-        ['Olives', 1],
-        ['Zucchini', 1],
-        ['Pepperoni', 2]
-    ]);
+    var data = google.visualization.arrayToDataTable(d);
 
-    // Set chart options
-    var options = {
-        'title':'',
-        'width':400,
-        'height':300
-    };
+      var options = {
+        legend: { position: 'bottom', textStyle: {color: 'white'}},
+        hAxis: {textStyle: {color: 'white'}}
+      };
 
-    // Instantiate and draw our chart, passing in some options.
-    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-    chart.draw(data, options);
+      var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
+
+      chart.draw(data, options);
 }
