@@ -2,6 +2,7 @@ var // Dependencies
 express = require('express'),
 passport = require('passport'),
 create = require('./create'),
+edit = require('./edit'),
 remove = require('./remove'),
 // Models
 Models = require('../models/schemas'),
@@ -203,15 +204,19 @@ router.post('/createCategory', function(req, res) {
     create.category(req, res);
 });
 
-
 router.post('/createExpense', function(req, res) {
     create.expense(req, res);
 });
 
-
 router.post('/createExpenseEntry', function(req, res) {
     create.expenseEntry(req, res);
 });
+
+
+router.post('/editExpenseEntry', function(req, res) {
+    edit.expenseEntry(req, res);
+});
+
 
 router.post('/removeCategory', function(req, res) {
     remove.category(req, res);

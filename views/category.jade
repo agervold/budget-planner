@@ -4,12 +4,6 @@ block content
     #infoactions
         #info
             h1=category
-            h6#expenseTotal Total:
-                span 0
-            h6#expenseAvg Average:
-                //-span=(expense.total / entries.length).toFixed(2)
-                //span=isNaN((expense.total / entries.length).toFixed(2)) ? 0 : (expense.total / entries.length).toFixed(2)
-
             h6#categoryExpenses Expenses:
                 span=expenses.length
         #actions
@@ -38,50 +32,51 @@ block content
                     option Ascending
                     option(selected) Descending
             input#categorySearch(placeholder="Search for Expense")
-        table#categoryTable
-            thead
-                tr
-                    th(rowspan="2") Monthly totals:
-                    for month in months
-                        th=month
-                    th Total
-                    th Average
-                tr
-                    - var monthsTotalCombined = 0;
-                    - var monthsTotalCount = 0;
-                    for mt in monthsTotal
-                        - monthsTotalCombined += mt
-                        th=mt
+        #tableDiv
+            table#categoryTable
+                thead
+                    tr
+                        th(rowspan="2") Monthly totals:
+                        for month in months
+                            th=month
+                        th Total
+                        th Average
+                    tr
+                        - var monthsTotalCombined = 0;
+                        - var monthsTotalCount = 0;
+                        for mt in monthsTotal
+                            - monthsTotalCombined += mt
+                            th=mt
+                                span DKK
+                            - if(mt > 0) monthsTotalCount++;
+                        th=monthsTotalCombined
                             span DKK
-                        - if(mt > 0) monthsTotalCount++;
-                    th=monthsTotalCombined
-                        span DKK
-                    th=(monthsTotalCombined / monthsTotalCount).toFixed(0)
-                        span DKK
-            tbody
-                -
-                    var chartData = [];
-                    for (var i = 0; i < 12; i++) {
-                        chartData.push([months[i]]);
-                    }
-                    
-                for expense, index in expenses
-                    tr(id=expense.name)
-                        td.expense=expense.name                                        
-                        - for (var i = 0; i < 12; i++) {
-                            -
-                                var monthTotal = 0;
-                                for (var e = 0; e < expense.entries.length; e++) {
-                                    if (expense.entries[e].date.getMonth() == i) 
-                                    monthTotal += expense.entries[e].cost;
-                                }
-                                chartData[i][index+1] = monthTotal;
-                            td
-                                input(value="#{monthTotal > 0 ? monthTotal : ''}")
+                        th=(monthsTotalCombined / monthsTotalCount).toFixed(0)
+                            span DKK
+                tbody
+                    -
+                        var chartData = [];
+                        for (var i = 0; i < 12; i++) {
+                            chartData.push([months[i]]);
+                        }
                         
-                        - }
-                        td.expenseTotal=expense.total
-                        td.expenseAvg 0     
+                    for expense, index in expenses
+                        tr(id=expense.name)
+                            td.expense=expense.name                                        
+                            - for (var i = 0; i < 12; i++) {
+                                -
+                                    var monthTotal = 0;
+                                    for (var e = 0; e < expense.entries.length; e++) {
+                                        if (expense.entries[e].date.getMonth() == i) 
+                                        monthTotal += expense.entries[e].cost;
+                                    }
+                                    chartData[i][index+1] = monthTotal;
+                                td
+                                    input(value="#{monthTotal > 0 ? monthTotal : ''}")
+                            
+                            - }
+                            td.expenseTotal=expense.total
+                            td.expenseAvg 0     
     else
         p No expenses found.
     //-

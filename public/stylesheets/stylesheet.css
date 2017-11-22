@@ -27,9 +27,12 @@ a {
     text-decoration: none;
 }
 
+h3 {
+    font-family: roboto-thin;    
+}
+
 #menu {
     height: 100%;
-    /*height: calc(100% - 50px);*/
     position: absolute;
     top: 0;
     left: 0;
@@ -38,16 +41,15 @@ a {
     margin: 0;
     border-right: 1px solid rgba(200,200,200,.5);
     overflow: auto;
+    background: #1b2836;
 }
 
 #menu > li {
     line-height: 60px;
     text-align: left;
     padding: 0 25px;
-    border-bottom: 1px solid rgba(200,200,200,.5);
     font-size: 18px;
     list-style: none;
-    background: #1b2836;
     cursor: pointer;
     position: relative;
 }
@@ -214,39 +216,11 @@ p {
     font-size: 30px;
 }
 
-table {
-    border-collapse: collapse;
-    border: 1px solid rgba(200,200,200,.5);
-    background: #1b2836;
+/*SUMMARY*/
+#summaryTable th:first-of-type {
+    width: 150px;
 }
 
-th span {
-    font-size: 12px;
-    opacity: .8;
-}
-
-td {
-    border: 1px solid rgba(200,200,200,.5);
-    padding: 0;
-    width: 66px;
-    text-align: center;
-}
-
-td:first-of-type {
-    text-align: left;
-    width: 200px;
-    padding-left: 15px;
-}
-
-table input {
-    height: 54px;
-    width: 65px;
-    width: 72px;
-    border: 0;
-    background: transparent;
-    font-size: 16px;
-    text-align: inherit;
-}
 
 /*CATEGORY & EXPENSE*/
 #infoactions {
@@ -292,12 +266,6 @@ table input {
     margin: 0 20px 10px;
 }
 
-/*CATEGORY*/
-#categoryTable tr:hover {
-    background: rgb(37, 50, 64);
-    cursor: pointer;
-}
-
 
 /*EXPENSE*/
 .button { 
@@ -323,11 +291,13 @@ table input {
     width: 120px;
 }
 
+#mostFrequent {
+    float: right;
+    padding-right: 5px;
+}
+
 #expenseTable {
-    height: 533px;
-    width: 710px;
     border-radius: 5px;
-    display: inline-block;
     overflow: auto;
 }
 
@@ -347,13 +317,93 @@ select, select option, #expenseInput, #expenseEntryForm input {
     color: black;
 }
 
-#expenseEntryform { 
+#expenseEntryForm { 
     border: 1px solid rgba(200,200,200,.5);
-    border-radius: 5px;
-    display: inline-block;
+    border-radius: 0 0 5px 5px;
+    height: 40px;
+    border-top: 0;
 }
 
 #expenseEntryForm input {
     border-right: 1px solid rgba(200,200,200,.5);
     padding-left: 5px;
+    background: 0;
+    border: 0;
+    color: white;
+    font-size: 20px;
+    line-height: 38px;
+}
+
+#expenseEntryForm input[type="submit"] {
+    float: right;
+    padding: 1px 20px;
+    border-left: 1px solid;
+    cursor: pointer;
+}
+
+#expenseEntryForm input[type="submit"]:hover {
+    opacity: .5;
+}
+
+/*TABLE*/
+#tableDiv { 
+    border: 1px solid rgba(200,200,200,.5);
+    border-radius: 5px;
+    padding: 3px;
+    background: #1b2836;
+    max-height: 533px;
+    overflow: auto;
+}
+
+#tableDiv table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+th {
+    text-align: left;
+    padding-left: 10px;
+}
+
+#expenseTable th:nth-of-type(1) {
+    width: 200px;
+}
+#expenseTable th:nth-of-type(2) {
+    width: 100px;
+}
+#expenseTable th:nth-of-type(3) {
+    width: 200px;
+}
+
+th span {
+    font-size: 12px;
+    opacity: .8;
+}
+
+tr {
+    height: 30px;
+}
+
+tbody tr:hover {
+    background: rgb(37, 50, 64);
+}
+
+td {
+    padding: 10px;
+}
+
+table input {
+    border: 0;
+    background: transparent;
+    font-size: 16px;
+    text-align: inherit;
+}
+
+#tableDiv::-webkit-scrollbar {
+	width: 8px;
+	background-color: rgb(20,20,20);
+}
+#tableDiv::-webkit-scrollbar-thumb {
+	background-color: rgb(245, 245, 245);
 }

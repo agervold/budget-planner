@@ -44,25 +44,35 @@ block content
                 option Ascending
                 option(selected) Descending
         input#expenseInput(placeholder="Search for sources")
-    table#expenseTable
-        thead
-            tr
-                th Date
-                th Cost
-                th Source
-                th Comment
-        tbody
-            for entry in entries
+        p#mostFrequent Most frequent source: #{freq}
+    #tableDiv(style="border-radius:5px 5px 0 0")
+        table#expenseTable
+            thead
                 tr
-                    td
-                        input(value=entry.date.toDateString() disabled)
-                    td
-                        input(value=entry.cost disabled)
-                    td
-                        input(value=entry.source disabled)
-                    td
-                        input(value=entry.comment disabled)
-                    td.entryId=entry._id
+                    th Date
+                    th Cost
+                    th Source
+                    th Comment
+            tbody
+                for entry in entries
+                    //-
+                    tr
+                        td
+                            input.entryDate(value=entry.date.toDateString() disabled)
+                        td
+                            input.entryCost(value=entry.cost disabled)
+                        td
+                            input.entrySource(value=entry.source disabled)
+                        td
+                            input.entryComment(value=entry.comment disabled)
+                        td.entryId=entry._id
+                    //-
+                        tr
+                            td=entry.date.toDateString()
+                            td=entry.cost
+                            td=entry.source
+                            td=entry.comment
+                            td.entryId=entry._id
     form#expenseEntryForm(action="/createExpenseEntry" method="post")
         input(name="sheet" type="hidden" value="#{sheet}")
         input(name="category" type="hidden" value="#{category}")
@@ -71,8 +81,6 @@ block content
         input(placeholder="Cost" name="cost" type="number" required value="15")
         input(placeholder="Source" name="source" type="text" required value="Bakken")
         input(placeholder="Comment" name="comment" type="text" value="Drinks")
-        input(type="submit" value="Add")
-    #expenseStatistics
-        p Most frequent source: #{freq}
+        input(type="submit" value="Add")        
 block scripts
     script(src="/javascripts/expenseScript.js")

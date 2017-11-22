@@ -1,50 +1,59 @@
 extends layout
 block content
     h1#main Summary
-    h3 This page generates a summary of your spending based on data in the 'Expenses' and 'Income' tabs.
-    table
-        thead
-            tr
-                th
-                for month in months
-                    th #{month}. '17
-                th Total
-                th Average
-            tr
-                td Income
-                - count = 0;
-                for inc, i in user.income
-                    td=inc
-                    - if(inc > 0 && i != 12) count++
-                td=user.income[12] / count || 0
-            tr
-                td Expenses
-                - count = 0;
-                for ex, i in user.expenses
-                    td=ex
-                    - if(ex > 0 && i != 12) count++
-                td=((user.expenses[12] / count) || 0).toFixed(0)
-            tr
-                td Net savings
-                - var nets = [];
-                - var val = [0,0];
-                - for (var i = 0; i < 13; i++) {
-                    -net = user.income[i] - user.expenses[i];
-                    -nets.push(net);
-                    -if ((user.income[i] > 0 || user.expenses[i] > 0) && i != 12) {
-                        -val[0] += net;
-                        -val[1]++;
-                    -}
-                    td=net
-                - }
-                td=val[0] / val[1]
-            tr
-                - var start = 0;
-                td Ending balance
-                - for (var i = 0; i < 12; i++) {
-                    - start += nets[i]
-                    td=start
-                - }
+    h3
+        | This page generates a summary of your spending based on data in the 
+        span Expenses
+        |  and 
+        span Income
+        | tabs.
+    #tableDiv
+        table#summaryTable
+            thead
+                tr
+                    th
+                    for month in months
+                        th #{month}. '17
+                    th Total
+                    th Average
+            tbody
+                tr
+                    td Income
+                    - count = 0;
+                    for inc, i in user.income
+                        td=inc
+                        - if(inc > 0 && i != 12) count++
+                    td=user.income[12] / count || 0
+                tr
+                    td Expenses
+                    - count = 0;
+                    for ex, i in user.expenses
+                        td=ex
+                        - if(ex > 0 && i != 12) count++
+                    td=((user.expenses[12] / count) || 0).toFixed(0)
+                tr
+                    td Net savings
+                    - var nets = [];
+                    - var val = [0,0];
+                    - for (var i = 0; i < 13; i++) {
+                        -net = user.income[i] - user.expenses[i];
+                        -nets.push(net);
+                        -if ((user.income[i] > 0 || user.expenses[i] > 0) && i != 12) {
+                            -val[0] += net;
+                            -val[1]++;
+                        -}
+                        td=net
+                    - }
+                    td=val[0] / val[1]
+                tr
+                    - var start = 0;
+                    td Ending balance
+                    - for (var i = 0; i < 12; i++) {
+                        - start += nets[i]
+                        td=start
+                    - }
+                    td
+                    td
             
     #chart_div
     script.

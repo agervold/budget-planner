@@ -58,34 +58,42 @@ var expenseEntry = function(req, res) {
     if (req.user == undefined) return res.end("not logged in");
     //req.body = {date: new Date(), cost: 7, source: "Bakken", sheet: "Expenses", category: "Everyday", name: "Alcohol"};
     var rb = req.body,
-    date = rb.date,
-    cost = parseFloat(rb.cost),
-    source = rb.source,
-    comment = rb.comment,
+    entriesChanges = JSON.parse(req.body.entries);
     sheet = rb.sheet, // Name of sheet (Expenses)
     category = rb.category, // Name of category (Everyday)
     name = rb.name, // Name of Expense (Alcohol) 
     categories = req.user[sheet.toLowerCase()+"Categories"]; // Array of Category in selected sheet
 
     var expense = findExpense(categories, category, name);
-    expense.entries.push(new ExpenseEntry({
-        date: date,
-        cost: cost,
-        source: source,
-        comment: comment
-    }));
-    expense.total += cost;
-    var inc = {};
-    inc[`${sheet.toLowerCase()}.${new Date(date).getMonth()}`] = cost;
-    inc[`${sheet.toLowerCase()}.12`] = cost;
+    var entries = expense.entries;
+    var changed = 0;
+
+    for (var i = 0; i < entries.length; i++) {
+        for (var e = 0; e < entriesChanges.length; e++) {
+            if (entries[i]._id == entriesChanges[e][0]) {
+                if (entriesChanges[e][1] == "entryDate") {
+                    entries[i].date = entriesChanges[e][2];
+                } else if (entriesChanges[e][1] == "entryCost") {
+                    var diff = entriesChanges[e][2] - entries[i].cost;
+                    expense.total += diff;
+                    entries[i].cost = entriesChanges[e][2];
+                } else if (entriesChanges[e][1] == "entrySource") {
+                    entries[i].source = entriesChanges[e][2];
+                } else if (entriesChanges[e][1] == "entryComment") {
+                    entries[i].comment = entriesChanges[e][2];
+                }
+                if (++changed == entriesChanges.length) break;
+            }
+        }
+        
+    }
     // TODO: Have 'expensesCategories' be dynamic, not hardcoded.
-    User.findByIdAndUpdate(req.user._id, {$set: {'expensesCategories': req.user.expensesCategories}, $inc: inc}, function(err, doc) {
+    User.findByIdAndUpdate(req.user._id, {$set: {'expensesCategories': req.user.expensesCategories}}, function(err, doc) {
         var resObj = {success: true};
         if (err) {
             resObj.success = false;                      
         } else {
-            resObj.cost = cost;
-            resObj.html = `<tr><td>${date}</td><td>${cost}</td><td>${source}</td><td>${comment}</td></tr>`;
+            resObj.total = expense.total;
         }
         return res.end(JSON.stringify(resObj));
     });

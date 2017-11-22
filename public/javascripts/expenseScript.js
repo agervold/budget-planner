@@ -1,5 +1,7 @@
+var p = location.pathname.split("/");
 // Makes Entries editable
 var editable = false;
+var toChange;
 $("#expenseEntryEdit").click(function() {
     editable = !editable;
     if (editable) {
@@ -8,7 +10,26 @@ $("#expenseEntryEdit").click(function() {
     } else {
         $(this).text("Edit Entries");
         $("tbody input").attr("disabled", true);
+        if (toChange.length > 0) {
+            var data = {sheet: p[1], category: p[2], name: p[3], entries: JSON.stringify(toChange)};
+            $.post('/editExpenseEntry', data, function(res) {
+                var obj = JSON.parse(res);
+                if (obj.success) {
+                    $("#expenseTotal span").text(obj.total);
+                } else {
+                    alert(obj.err);
+                }
+            });
+        }
     }
+    toChange = [];
+});
+
+$("td input").change(function() {
+    var id = $(this).parents("tr").find(".entryId").text();
+    var field = $(this).attr("class");
+    var val = $(this).val();
+    toChange.push([id,field,val]);
 });
 
 // Filters Entries based on search input
@@ -30,7 +51,6 @@ $("#expenseInput").on("keyup", function() {
 // Removes Expense
 $("#expenseRemove").click(function() {
     if(confirm("Are you sure you want to delete this expense?")) {
-        var p = location.pathname.split("/");
         var data = {sheet: p[1], category: p[2], name: p[3]};
         $.post('/removeExpense', data, function(res) {
             var obj = JSON.parse(res);
@@ -68,10 +88,8 @@ $("#expenseEntryRemove").click(function() {
         ids.push($(this).find(".entryId").text());
     });
 
-    var p = location.pathname.split("/");
     var data = {sheet: p[1], category: p[2], name: p[3], ids: ids};
-    var d = {data: JSON.stringify(data)};
-    $.post('/removeEntry', d, function(res) {
+    $.post('/removeEntry', {data: JSON.stringify(data)}, function(res) {
         var obj = JSON.parse(res);
         if (obj.success) {
             $("#expenseTable tr.selected").remove();
