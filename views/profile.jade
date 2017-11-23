@@ -1,4 +1,7 @@
 extends layout
 block content
-    p=user.firstName
     p=user.username
+    span Starting Balance:
+    input(value=user.startingBalance)
+    br
+    a(href="/logout") Logout

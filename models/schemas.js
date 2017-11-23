@@ -25,6 +25,7 @@ var User = new Schema({
     incomeCategories: { type: Array, default: [] },
     expensesCategories: { type: Array, default: [] },
     date: { type: Date, default: Date.now },
+    startingBalance: { type: Number, default: 0 },
     income: { type: Array, default: [0,0,0,0,0,0,0,0,0,0,0,0,0] },
     expenses: { type: Array, default: [0,0,0,0,0,0,0,0,0,0,0,0,0] }
 });

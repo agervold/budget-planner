@@ -1,4 +1,20 @@
 var p = location.pathname.split("/");
+var oldName = $("#expenseName").val();
+
+$("#expenseName").change(function() {
+    var val = $(this).val();
+    if (val != oldName) {  
+        $.post("/edit/expense", {name: val}, function(res) {
+            var obj = JSON.parse(res);
+            if (obj.success) {
+                $("#expenseName").val(obj.what);
+            } else {
+                oldName = val;
+            }
+        });
+    }
+});
+
 // Makes Entries editable
 var editable = false;
 var toChange;
@@ -12,7 +28,7 @@ $("#expenseEntryEdit").click(function() {
         $("tbody input").attr("disabled", true);
         if (toChange.length > 0) {
             var data = {sheet: p[1], category: p[2], name: p[3], entries: JSON.stringify(toChange)};
-            $.post('/editExpenseEntry', data, function(res) {
+            $.post('/edit/entry', data, function(res) {
                 var obj = JSON.parse(res);
                 if (obj.success) {
                     $("#expenseTotal span").text(obj.total);
@@ -111,10 +127,11 @@ $('#expenseEntryForm').on('submit', function(e) {
         var obj = JSON.parse(res);
         if (obj.success) {
             $("tbody").append(obj.html);
-            var newTotal = parseFloat($("#expenseTotal span").text())+obj.cost;
+            //var newTotal = parseFloat($("#expenseTotal span").text())+obj.cost;
             var len = $("tbody tr").length;
-            $("#expenseTotal span").text(newTotal);
-            $("#expenseAvg span").text((newTotal / len).toFixed(2));
+            //$("#expenseTotal span").text(newTotal);
+            $("#expenseTotal span").text(obj.total);
+            $("#expenseAvg span").text((obj.total / len).toFixed(0));
             //TODO: Potentially increment 'sources'
         } else {
             alert("error");

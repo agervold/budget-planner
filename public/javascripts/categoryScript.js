@@ -1,8 +1,29 @@
+var oldName = $("#categoryName").val();
+var p = location.pathname.split("/");
+
+$("#categoryName").change(function() {
+    var val = $(this).val();
+    if (val != oldName) {  
+        $.post("/edit/category", {name: val, oldName: p[2], sheet: p[1]}, function(res) {
+            var obj = JSON.parse(res);
+            if (obj.success) {
+                location.href = obj.url;
+            } else {
+                $("#categoryName").val(oldName);
+            }        
+        });
+    }
+});
+
+$("#categoryName").css("width", $("#categoryName").val().length * 16);
+$("#categoryName").keyup(function() {
+    $(this).css("width", $(this).val().length * 16);
+});
+
 // Create Expense
 $("#categoryAddExpense").click(function() {
     var name = prompt("Name");
     if (name) {
-        var p = location.pathname.split("/");
         $.post('/createExpense', {sheet: p[1], category: p[2], name: name}, function(res) {
             var obj = JSON.parse(res);
             if (obj.success) {
@@ -16,8 +37,7 @@ $("#categoryAddExpense").click(function() {
 
 // Remove Category
 $("#categoryRemove").click(function() {
-    if(confirm("Are you sure you want to delete this category?")) {
-        var p = location.pathname.split("/");
+    if(confirm("Are you sure you want to delete this category?")) {       
         $.post('/removeCategory', {sheet: p[1], name: p[2]}, function(res) {
             if (JSON.parse(res).success) {
                 $("#"+p[2]).remove();

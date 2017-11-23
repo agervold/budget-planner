@@ -1,79 +1,82 @@
 extends layout
 block content
-    #infoactions
+    #infoactions       
         #info
-            h1=expense.name
-            h6#expenseTotal Total:
-                span=expense.total
-            h6#expenseAvg Average:
-                //-span=(expense.total / entries.length).toFixed(2)
-                span=isNaN((expense.total / entries.length).toFixed(0)) ? 0 : (expense.total / entries.length).toFixed(0)
-            -
-                var freq;
-                var srcs = {};
-                for (var i = 0; i < entries.length; i++) {
-                    var s = entries[i].source;
-                    srcs[s] == undefined ? srcs[s] = 1 : srcs[s]++;
-                    if (srcs[s] > srcs[freq] || freq == undefined) freq = s;
-                }
-            h6#expenseSrcs Sources:
-                span=Object.keys(srcs).length
+            input#expenseName(value=expense.name)
+            if entries.length > 0
+                h6#expenseTotal Total:
+                    span=expense.total
+                h6#expenseAvg Average:
+                    //-span=(expense.total / entries.length).toFixed(2)
+                    span=isNaN((expense.total / entries.length).toFixed(0)) ? 0 : (expense.total / entries.length).toFixed(0)
+                -
+                    var freq;
+                    var srcs = {};
+                    for (var i = 0; i < entries.length; i++) {
+                        var s = entries[i].source;
+                        srcs[s] == undefined ? srcs[s] = 1 : srcs[s]++;
+                        if (srcs[s] > srcs[freq] || freq == undefined) freq = s;
+                    }
+                h6#expenseSrcs Sources:
+                    span=Object.keys(srcs).length
         #actions
             button#expenseRemove.button Remove
-            button#expenseEntryEdit.button Edit Entries
-            button#expenseEntryRemove.button.disabled Remove Entry      
-    #filter
-        select#sort
-            if sort == "date" || sort == undefined
-                option(selected) Date
-                option Cost
-                option Source
-            else if sort == "cost"
-                option Date
-                option(selected) Cost
-                option Source
-            else if sort == "source"
-                option Date
-                option Cost
-                option(selected) Source
-        select#ascending
-            if ascending == 1
-                option(selected) Ascending
-                option Descending
-            else
-                option Ascending
-                option(selected) Descending
-        input#expenseInput(placeholder="Search for sources")
-        p#mostFrequent Most frequent source: #{freq}
-    #tableDiv(style="border-radius:5px 5px 0 0")
-        table#expenseTable
-            thead
-                tr
-                    th Date
-                    th Cost
-                    th Source
-                    th Comment
-            tbody
-                for entry in entries
-                    //-
+            if entries.length > 0
+                button#expenseEntryEdit.button Edit Entries
+                button#expenseEntryRemove.button.disabled Remove Entry      
+    if entries.length > 0
+        #filter
+            select#sort
+                if sort == "date" || sort == undefined
+                    option(selected) Date
+                    option Cost
+                    option Source
+                else if sort == "cost"
+                    option Date
+                    option(selected) Cost
+                    option Source
+                else if sort == "source"
+                    option Date
+                    option Cost
+                    option(selected) Source
+            select#ascending
+                if ascending == 1
+                    option(selected) Ascending
+                    option Descending
+                else
+                    option Ascending
+                    option(selected) Descending
+            input#expenseInput(placeholder="Search for sources")
+            p#mostFrequent Most frequent source: #{freq}
+        #tableDiv(style="border-radius:5px 5px 0 0")
+            table#expenseTable
+                thead
                     tr
-                        td
-                            input.entryDate(value=entry.date.toDateString() disabled)
-                        td
-                            input.entryCost(value=entry.cost disabled)
-                        td
-                            input.entrySource(value=entry.source disabled)
-                        td
-                            input.entryComment(value=entry.comment disabled)
-                        td.entryId=entry._id
-                    //-
+                        th Date
+                        th Cost
+                        th Source
+                        th Comment
+                tbody
+                    for entry in entries
+                        //-
                         tr
-                            td=entry.date.toDateString()
-                            td=entry.cost
-                            td=entry.source
-                            td=entry.comment
+                            td
+                                input.entryDate(value=entry.date.toDateString() disabled)
+                            td
+                                input.entryCost(value=entry.cost disabled)
+                            td
+                                input.entrySource(value=entry.source disabled)
+                            td
+                                input.entryComment(value=entry.comment disabled)
                             td.entryId=entry._id
-    form#expenseEntryForm(action="/createExpenseEntry" method="post")
+                        //-
+                            tr
+                                td=entry.date.toDateString()
+                                td=entry.cost
+                                td=entry.source
+                                td=entry.comment
+                                td.entryId=entry._id
+    form#expenseEntryForm(class="#{entries.length > 0 ? '' : 'alone'}" action="/createExpenseEntry" method="post")
         input(name="sheet" type="hidden" value="#{sheet}")
         input(name="category" type="hidden" value="#{category}")
         input(name="name" type="hidden" value="#{expense.name}")

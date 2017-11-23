@@ -13,75 +13,17 @@ User = Models.user,
 
 router = express.Router();
 
-var groceries = {
-    amount: 568.20,
-    entries: [
-        {
-            date: new Date(2017, 8, 5),
-            amount: 229.15, 
-            source: "Netto"
-        },
-        {
-            date: new Date(2017, 8, 9),
-            amount: 56.75, 
-            source: "Lidl"
-        },
-        {
-            date: new Date(2017, 8, 11),
-            amount: 282.30, 
-            source: "Føtex"
-        }
-    ]
-}
-var takeaway = {
-    amount: 210,
-    entries: [
-        {
-            date: new Date(2017, 8, 4),
-            amount: 75.04, 
-            source: "Domino's"
-        },
-        {
-            date: new Date(2017, 8, 8),
-            amount: 85, 
-            source: "McDonald's"
-        },
-        {
-            date: new Date(2017, 8, 9),
-            amount: 50, 
-            source: "Luna Rossa"
-        }
-    ]
-}
-var drinking = {
-    amount: 390,
-    entries: [
-        {
-            date: new Date(2017, 8, 30),
-            amount: 180, 
-            source: "Vintønden"
-        },
-        {
-            date: new Date(2017, 8, 30),
-            amount: 60, 
-            source: "Bakken"
-        },
-        {
-            date: new Date(2017, 9, 3),
-            amount: 150, 
-            source: "Vintønden"
-        }
-    ]
-}
-
 var categories = {
     Entertainment: ["Netflix", "Spotify", "HBO", "Viaplay"], 
     Everyday: ["Groceries", "Takeaway", "Alcohol", "Restaurants", "Personal supplies", "Clothes","Laundry/dry cleaning", "Hair/beauty", "Subscriptions", "Other", "Fitness World"]
 }
 
-
 router.get('/summary', function(req, res) {
     res.render('summary', { user: req.user, sheet: "summary" });       
+});
+
+router.get('/setup', function(req, res) {
+    res.render('setup', {defaultIncomeCategories: defaultIncomeCategories, defaultExpensesCategories: defaultExpensesCategories});       
 });
 
 
@@ -132,7 +74,14 @@ var defaultIncomeCategories = {
 };
 var defaultExpensesCategories = {
     "Everyday": ["Groceries", "Takeaway", "Alcohol"],
-    "Entertainment": ["Netflix", "Spotify", "HBO"]
+    "Entertainment": ["Netflix", "Spotify", "HBO"],
+    "Utilities": [],
+    "Home": ["Rent/mortgage", "Ejerforening", "Property taxes", "Furnishings", "Lawn/garden", "Supplies", "Maintenance", "Improvements", "Moving", "Other"],
+    "Insurance": [],
+    "Technology": [],
+    "Transportation": [],
+    "Travel": [],
+    "Debt": []
 };
 
 function getExpense(name) {
@@ -199,7 +148,7 @@ router.post('/login', function(req, res, next) {
     })(req, res, next);
 });
 
-
+/*
 router.post('/createCategory', function(req, res) {
     create.category(req, res);
 });
@@ -229,6 +178,7 @@ router.post('/removeExpense', function(req, res) {
 router.post('/removeEntry', function(req, res) {
     remove.expenseEntry(req, res);
 });
+*/
 
 function getMonthlyTotal(expenses) {
     var months = [0,0,0,0,0,0,0,0,0,0,0,0];

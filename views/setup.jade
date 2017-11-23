@@ -1,0 +1,70 @@
+head
+    link(rel="stylesheet" href="/stylesheets/ionicons.min.css")
+    link(rel="stylesheet" href="/stylesheets/setup.css")
+body
+    h1 Setup
+    #content
+        h3 Select Default Expenses
+        h4 You can always remove them or add new ones later
+    
+        -
+            var expenses = [
+                "nutrition", "Everyday",
+                "videocam", "Entertainment",
+                "lightbulb", "Utilities",
+                "home", "Home",
+                "copy", "Insurance",
+                "game-controller-b", "Tech",
+                "paper", "Debt"
+            ];
+        #categories
+            - for (var i = 0; i < expenses.length; i+=2) {
+                .category
+                    i(class="icon ion-ios-#{expenses[i]}-outline outline")
+                    i(class="icon ion-ios-#{expenses[i]} full")
+                    span=expenses[i+1]
+            - }
+            .category
+                i(class="icon outline")
+                    img(src="/images/plane_outline.png")
+                i(class="icon full")
+                    img(src="/images/plane.png")
+                span Travel
+            //-
+                .category
+                    i(class="icon outline")
+                        img(src="/images/bus_outline.png")
+                    i(class="icon full")
+                        img(src="/images/bus.png")
+                    span Transport
+        #balance
+            input
+    button.button NEXT
+    script(src="/javascripts/jquery-3.2.1.min.js")
+    script(src="/javascripts/setup.js")
+
+//-
+    #income
+        p Income Categories
+        ul#incomeCategories.categories
+            for category in Object.keys(defaultIncomeCategories)
+                li
+                    input.catCheck(type="checkbox" checked)
+                    span.catSpan=category
+                    ul.expenses
+                        for expense in defaultIncomeCategories[category]                 
+                            li
+                                input(type="checkbox" checked)
+                                span=expense
+    #expenses
+        p Expenses Categories
+        ul#expensesCategories.categories
+            for category in Object.keys(defaultExpensesCategories)
+                li
+                    input.catCheck(type="checkbox" checked)
+                    span.catSpan=category
+                    ul.expenses
+                        for expense in defaultExpensesCategories[category]
+                            li
+                                input(type="checkbox" checked)
+                                span=expense

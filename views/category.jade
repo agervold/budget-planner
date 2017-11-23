@@ -3,7 +3,7 @@ extends layout
 block content
     #infoactions
         #info
-            h1=category
+            input#categoryName(value=category)
             h6#categoryExpenses Expenses:
                 span=expenses.length
         #actions

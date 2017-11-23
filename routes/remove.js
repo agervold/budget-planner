@@ -1,9 +1,11 @@
+var express = require('express');
+var router = express.Router();
 var User = require('../models/schemas').user;
 var Category = require('../models/schemas').category;
 var Expense = require('../models/schemas').expense;
 var ExpenseEntry = require('../models/schemas').entry;
 
-var category = function(req, res) {
+router.post('/category', function(req, res) {
     if (req.user == undefined) return res.end("not logged in");
     var sheet = req.body.sheet.toLowerCase()+"Categories", // Name of sheet (Expenses)
     name = req.body.name, // Name of new Category
@@ -15,9 +17,9 @@ var category = function(req, res) {
         if (err) resObj.success = false;
         return res.end(JSON.stringify(resObj));
     });
-}
+});
 
-var expense = function(req, res) {
+router.post('/expense', function(req, res) {
     if (req.user == undefined) return res.end("not logged in");
     var rb = req.body,
     sheet = rb.sheet.toLowerCase()+"Categories", // Name of sheet (Expenses)
@@ -37,9 +39,9 @@ var expense = function(req, res) {
         }
         return res.end(JSON.stringify(resObj));
     });
-}
+});
 
-var expenseEntry = function(req, res) {
+router.post('/entry', function(req, res) {
     if (req.user == undefined) return res.end("not logged in");
     var rb = JSON.parse(req.body.data),
     sheet = rb.sheet, // Name of sheet (Expenses)
@@ -88,7 +90,7 @@ var expenseEntry = function(req, res) {
             return res.end(JSON.stringify(resObj));
         });
     });
-}
+});
 
 function findExpense(categories, category, name) {
     for (var i = 0; i < categories.length; i++) {
@@ -102,7 +104,9 @@ function findExpense(categories, category, name) {
         }
     }
 }
-
+/*
 module.exports.category = category;
 module.exports.expense = expense;
 module.exports.expenseEntry = expenseEntry;
+*/
+module.exports = router;

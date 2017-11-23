@@ -1,0 +1,168 @@
+@font-face {
+    font-family: roboto;
+    src: url(/fonts/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: roboto-thin;
+    src: url(/fonts/Roboto-Thin.ttf);
+}
+
+* {
+    font-family: roboto;
+}
+
+body {  
+    background: #141d26;
+    margin: 0;
+    color: white;
+    text-align: center;
+}
+
+h1 {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    left: 0;
+    margin: auto;
+    font-family: roboto-thin;
+    font-size: 3em;
+}
+
+#content {
+    width: 704px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    height: 331px;
+}
+
+h3 {
+    font-family: roboto-thin;
+    margin: 0;
+}
+
+h4 {
+    font-family: roboto-thin;
+    margin: 0;
+    border-bottom: 1px solid rgba(245,245,245,0.3);
+    padding-bottom: 40px;
+}
+
+
+.category {
+    display: inline-block;
+    margin: 40px 0;
+    text-align: center;
+    cursor: pointer;
+    width: 150px;
+}
+.category:hover {
+    opacity: .5;
+}
+
+.icon {
+    font-size: 40px;
+}
+
+.icon.outline {
+    display: none;
+}
+
+.icon img {
+    height: 40px;
+}
+
+.category span {
+    display: block;
+    font-size: 20px;
+}
+
+
+#balance {
+    display: none;
+}
+
+#balance input {   
+    margin-top: 40px;
+    font-size: 30px;
+    background: 0;
+    border: 0;
+    border-bottom: 2px solid white;
+    color: white;
+    text-align: center;
+}
+
+/*
+#income, #expenses {
+    display: inline-block;
+    width: 250px;
+    margin: 0 50px;
+    background: #1b2836;
+    border: 1px solid rgba(200,200,200,0.5);
+    vertical-align: top;
+}
+
+#incomeCategories, #expensesCategories, .expenses {
+    padding-left: 20px;
+}
+
+ul {
+    list-style: none;
+}
+
+ul.expenses {
+    *display: none;*
+}
+
+li {
+    margin: 5px 0;
+}
+
+input[type="checkbox"] {
+    height: 20px;
+    width: 20px;
+    background: none;
+    margin-right: 8px;
+    margin: 0 8px 0 0;
+}
+
+input[type="checkbox"].catCheck {
+    height: 25px;
+    width: 25px;
+}
+
+span {
+    vertical-align: top;
+    line-height: 20px;
+    display: inline-block;
+}
+
+span.catSpan {
+    font-size: 20px;
+}
+*/
+
+.button { 
+    background: 0;
+    border: 1px solid white;
+    cursor: pointer;
+    color: white;
+    padding: 12px 36px;
+    position: absolute;
+    bottom: 50px;
+    right: 0;
+    left: 0;
+    margin: auto;
+    width: 142px;
+
+}
+.button:hover {
+    background: rgba(200,200,200,.3)
+}
+.button.disabled:focus {
+    outline: none;
+}

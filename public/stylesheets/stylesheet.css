@@ -31,6 +31,26 @@ h3 {
     font-family: roboto-thin;    
 }
 
+.button { 
+    background: 0;
+    border: 1px solid rgba(200,200,200,.5);
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    vertical-align: text-bottom;
+    margin-right: 25px;
+}
+.button:hover:not(.disabled):hover {
+    background: rgba(200,200,200,.3)
+}
+.button.disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+.button.disabled:focus {
+    outline: none;
+}
+
 #menu {
     height: 100%;
     position: absolute;
@@ -232,6 +252,7 @@ p {
 }
 
 #info {
+    padding-right: 25px;
     border-right: 1px solid rgba(200,200,200,.3);
     margin-right: 25px;
 }
@@ -241,9 +262,12 @@ p {
     margin: 0;
 }
 #info h6 {
-    width: 80px;
+    padding: 0 20px;
     text-align: center;
     color: rgb(150,150,150)
+}
+#info h6:last-of-type {
+    padding: 0 0 0 20px;
 }
 
 #info h6 span {
@@ -268,25 +292,14 @@ p {
 
 
 /*EXPENSE*/
-.button { 
+#categoryName, #expenseName {
     background: 0;
-    border: 1px solid rgba(200,200,200,.5);
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    vertical-align: text-bottom;
-    margin-right: 25px;
+    border: 0;
+    font-size: 2em;
+    font-weight: bold;
+    width: 110px;
 }
-.button:hover:not(.disabled):hover {
-    background: rgba(200,200,200,.3)
-}
-.button.disabled {
-    opacity: .5;
-    cursor: not-allowed;
-}
-.button.disabled:focus {
-    outline: none;
-}
+
 #expenseEntryRemove {
     width: 120px;
 }
@@ -323,9 +336,12 @@ select, select option, #expenseInput, #expenseEntryForm input {
     height: 40px;
     border-top: 0;
 }
+#expenseEntryForm.alone {
+    border-top: 1px solid rgba(200,200,200,.5);
+    border-radius: 5px;
+}
 
 #expenseEntryForm input {
-    border-right: 1px solid rgba(200,200,200,.5);
     padding-left: 5px;
     background: 0;
     border: 0;
@@ -337,7 +353,7 @@ select, select option, #expenseInput, #expenseEntryForm input {
 #expenseEntryForm input[type="submit"] {
     float: right;
     padding: 1px 20px;
-    border-left: 1px solid;
+    border-left: 1px solid rgba(200,200,200,.5);
     cursor: pointer;
 }
 
