@@ -1,44 +1,70 @@
 head
     link(rel="stylesheet" href="/stylesheets/ionicons.min.css")
-    link(rel="stylesheet" href="/stylesheets/setup.css")
+    link(rel="stylesheet" href="/stylesheets/setup_light.css")
 body
     h1 Setup
     #content
-        h3 Select Default Expenses
-        h4 You can always remove them or add new ones later
-    
-        -
-            var expenses = [
-                "nutrition", "Everyday",
-                "videocam", "Entertainment",
-                "lightbulb", "Utilities",
-                "home", "Home",
-                "copy", "Insurance",
-                "game-controller-b", "Tech",
-                "paper", "Debt"
-            ];
-        #categories
-            - for (var i = 0; i < expenses.length; i+=2) {
-                .category
-                    i(class="icon ion-ios-#{expenses[i]}-outline outline")
-                    i(class="icon ion-ios-#{expenses[i]} full")
-                    span=expenses[i+1]
-            - }
-            .category
-                i(class="icon outline")
-                    img(src="/images/plane_outline.png")
-                i(class="icon full")
-                    img(src="/images/plane.png")
-                span Travel
-            //-
-                .category
+        #incomeSection
+            h3 Select Default Income Categories
+            h4 You can always remove them or add new ones later
+        
+            -
+                var expenses = [
+                    "nutrition", "Wages",
+                    "videocam", "Other"
+                ];
+            #categories
+                - for (var i = 0; i < expenses.length; i+=2) {
+                    .category.selected(id="#{expenses[i+1]}")
+                        i(class="icon ion-ios-#{expenses[i]}-outline outline")
+                        i(class="icon ion-ios-#{expenses[i]} full")
+                        span=expenses[i+1]
+                        ul.expenses
+                            for expense in defaultIncomeCategories[expenses[i+1]]
+                                li=expense
+                - }
+        #expensesSection
+            h3 Select Default Expense Categories
+            h4 You can always remove them or add new ones later
+        
+            -
+                var expenses = [
+                    "nutrition", "Everyday",
+                    "videocam", "Entertainment",
+                    "lightbulb", "Utilities",
+                    "home", "Home",
+                    "copy", "Insurance",
+                    "game-controller-b", "Technology",
+                    "paper", "Debt"
+                ];
+            #categories
+                - for (var i = 0; i < expenses.length; i+=2) {
+                    .category.selected(id="#{expenses[i+1]}")
+                        i(class="icon ion-ios-#{expenses[i]}-outline outline")
+                        i(class="icon ion-ios-#{expenses[i]} full")
+                        span=expenses[i+1]
+                        ul.expenses
+                            for expense in defaultExpensesCategories[expenses[i+1]]
+                                li=expense
+                - }
+                .category.selected#Travel
                     i(class="icon outline")
-                        img(src="/images/bus_outline.png")
+                        img(src="/images/plane_outline.png")
                     i(class="icon full")
-                        img(src="/images/bus.png")
-                    span Transport
-        #balance
-            input
+                        img(src="/images/plane.png")
+                    span Travel
+                //-
+                    .category
+                        i(class="icon outline")
+                            img(src="/images/bus_outline.png")
+                        i(class="icon full")
+                            img(src="/images/bus.png")
+                        span Transport
+        #balanceSection
+            h3 Set your Starting Balance
+            h4 Optionally set your starting balance so we can more properly calculate your ending balance throughout
+            #balance
+                input
     button.button NEXT
     script(src="/javascripts/jquery-3.2.1.min.js")
     script(src="/javascripts/setup.js")

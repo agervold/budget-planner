@@ -13,9 +13,8 @@
 }
 
 body {  
-    background: #141d26;
+    background: rgb(250,250,250);
     margin: 0;
-    color: white;
     text-align: center;
 }
 
@@ -52,7 +51,7 @@ h3 {
 h4 {
     font-family: roboto-thin;
     margin: 0;
-    border-bottom: 1px solid rgba(245,245,245,0.3);
+    border-bottom: 1px solid rgba(50,50,50,0.3);
     padding-bottom: 40px;
 }
 
@@ -71,6 +70,7 @@ h4 {
 
 .icon {
     font-size: 40px;
+    color: rgb(50,50,50);
 }
 
 .icon.outline {
@@ -93,9 +93,8 @@ h4 {
     list-style: none;
     left: 15px;
     width: 100px;
-    background: white;
-    color: black;
-    border: grey;
+    background: rgb(240,240,240);
+    border: 1px solid rgb(200,200,200);
     z-index: 1;
 }
 .category:hover .expenses {
@@ -109,70 +108,20 @@ h4 {
     font-size: 30px;
     background: 0;
     border: 0;
-    border-bottom: 2px solid rgb(100,100,100);
-    color: white;
+    border-bottom: 2px solid rgb(150,150,150);
     text-align: center;
 }
 
 #balance input:focus {
     outline: none;
-    border-color: white;
-}
-/*
-#income, #expenses {
-    display: inline-block;
-    width: 250px;
-    margin: 0 50px;
-    background: #1b2836;
-    border: 1px solid rgba(200,200,200,0.5);
-    vertical-align: top;
+    border-color: rgb(50,50,50);
 }
 
-#incomeCategories, #expensesCategories, .expenses {
-    padding-left: 20px;
-}
-
-ul {
-    list-style: none;
-}
-
-ul.expenses {
-    *display: none;*
-}
-
-li {
-    margin: 5px 0;
-}
-
-input[type="checkbox"] {
-    height: 20px;
-    width: 20px;
-    background: none;
-    margin-right: 8px;
-    margin: 0 8px 0 0;
-}
-
-input[type="checkbox"].catCheck {
-    height: 25px;
-    width: 25px;
-}
-
-span {
-    vertical-align: top;
-    line-height: 20px;
-    display: inline-block;
-}
-
-span.catSpan {
-    font-size: 20px;
-}
-*/
 
 .button { 
     background: 0;
-    border: 1px solid white;
+    border: 1px solid rgb(50,50,50);
     cursor: pointer;
-    color: white;
     padding: 12px 36px;
     position: absolute;
     bottom: 50px;

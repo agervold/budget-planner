@@ -1,9 +1,3 @@
-if($("#status_message").length) {
-    $("#form_register").submit();
-} else {
-    $("#form_login").submit();
-}
-
 try {
     var p = location.pathname.split("/");
     $("#"+p[p.length-1]).addClass("selected");

@@ -1,36 +1,29 @@
 doctype html
 html
 	head
-		link(rel="stylesheet" href="/stylesheets/register.css")
+		link(rel="stylesheet" href="/stylesheets/ionicons.min.css")
+		link(rel="stylesheet" href="/stylesheets/register_light.css")
 	body
 		if status_message
 			p#status_message=status_message
 		header
 			h1 budgetplanner
-		img#backgroundImage(src="/images/background.jpg")
-		#shader
-		#forms
-			form(id="form_register", action='/register', method='post')
-				p.login_header Sign Up      
-				input.input(type='email', name='username', placeholder='Email' value="john@doe.com")
-				input.input(type='password', name='password', placeholder='Password' value="123")     
-				//input.input(type='email', name='email', placeholder='Email') 
-				//input.input(type='password', name='password', placeholder='Password')
-				input.input(type='text', name='firstName', placeholder='First Name' value="John")
-				input.input(type='text', name='lastName', placeholder='Last Name' value="Doe")
-				br
-				input#signup2(type='submit', value='Sign Up')
-
-			form(id="form_login" action='/login', method='post')
-				p.login_header Login
-				//input#log_in_email.input(type='text', name='username', placeholder='Email', maxlength='80')
-				input#log_in_email.input(type='email', name='username', placeholder='Email', maxlength='80' value="john@doe.com")
-				br
-				input#log_in_password.input(type='password', name='password', placeholder='Password' value="123")
-				br
-				input#login2(type='submit', value='Log In')
-				a(href='/start', target='_blank') Forgot Password?
-		img#chevron(src="/images/chevron.png")
+		form(action='/login' method='post')
+			p Login
+			.input-effect
+				input#log_in_email.input(type='email' name='username' maxlength='80' value="john@doe.com" required)
+				label Email
+				span.focus-border
+					i
+			.input-effect
+				input#log_in_password.input(type='password' name='password' value="123" required)
+				label Password
+				span.focus-border
+					i
+			br
+			input(type='submit' value='Log In') 
+			a(href='/' target='_blank') Forgot Password?
+		i.icon.ion-chevron-down
 		footer
 			div
 				.info_slide
@@ -49,4 +42,4 @@ html
 					p
 						a(href='#') Learn more about info3
 		script(src="/javascripts/jquery-3.2.1.min.js")
-		script(src="/javascripts/script.js")
+		script(src="/javascripts/registerScript.js")

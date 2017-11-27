@@ -1,0 +1,422 @@
+@font-face {
+    font-family: roboto;
+    src: url(/fonts/Roboto-Regular.ttf);
+}
+
+@font-face {
+    font-family: roboto-thin;
+    src: url(/fonts/Roboto-Thin.ttf);
+}
+
+* {
+    box-sizing: border-box;
+    font-family: roboto, sans-serif;
+    color: black;
+}
+
+html {
+    background: rgb(250,250,250);
+}
+
+body {
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+h3 {
+    font-family: roboto-thin;    
+}
+
+.button { 
+    background: 0;
+    border: 1px solid rgba(200,200,200,.5);
+    padding: 8px 12px;
+    cursor: pointer;
+    vertical-align: text-bottom;
+    margin-right: 25px;
+}
+.button:hover:not(.disabled):hover {
+    background: rgba(200,200,200,.3)
+}
+.button.disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+.button.disabled:focus {
+    outline: none;
+}
+
+#menu {
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0;
+    width: 200px;
+    margin: 0;
+    border-right: 1px solid rgb(200,200,200);
+    overflow: auto;
+    background: rgb(240,240,240);
+}
+
+#menu > li {
+    line-height: 60px;
+    text-align: left;
+    padding: 0 25px;
+    font-size: 18px;
+    list-style: none;
+    cursor: pointer;
+    position: relative;
+}
+
+#menu .sheet {
+    font-style: italic;
+    font-weight: bold;
+    cursor: initial;
+    font-size: 20px;
+    padding-left: 15px;
+}
+
+#newCategoryInput {
+    font-size: 20px;
+    border: 0;
+    background: 0;
+    width: 100%;
+    padding-left: 5px;
+}
+#newCategoryInput:focus {
+    outline: white auto 5px;
+}
+
+#menu img {   
+    position: absolute;
+    top: 21px;
+    right: 21px;
+    cursor: pointer;
+}
+#menu img:hover {
+    opacity: .7;
+}
+
+#menu .iconDelete {
+    display: none;
+}
+
+#menu .sheet:first-of-type:hover, #menu .category:not(.selected):hover {
+    background: rgb(220,220,220);
+}
+#menu > li.selected {
+    background: rgb(210,210,210);
+}
+
+#menu .iconChevron {
+    transition: .5s;
+}
+
+#menu .iconChevron.selected {
+    transform: rotate(180deg);
+}
+#menu .iconChevron.selected + .sub-menu {
+    display: initial;
+}
+
+.sub-menu {
+    display: none;
+    padding-left: 15px;
+}
+
+.sub-menu li {
+    font-size: 14px;
+    list-style: none;
+    height: 30px;
+    line-height: 30px;
+}
+
+#settings {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200px;
+    /*height: 50px;*/
+    text-align: center;
+    border-top: 1px solid rgba(200,200,200,.5);
+    background: #1b2836;
+    border-right: 1px solid rgba(200,200,200,.5);
+}
+
+#newCategory {
+    height: 30px;
+    display: none;
+}
+#newCategory input {
+    font-size: 20px;
+    width: 150px;
+    color: black;
+    padding: 1px 0 1px 3px;
+}
+#newCategory button {
+    width: 49px;
+    height: 100%;
+    vertical-align: top;
+    color: black;
+}
+
+#settings .fa {
+    font-size: 26px;
+    line-height: 50px;
+    cursor: pointer;
+}
+#settings .fa-plus {
+    float: left;
+    margin-left: 20px;
+}
+#settings .fa-cog {
+    float: right;
+    margin-right: 20px;
+}
+#settings .fa:hover {
+    opacity: .5;
+}
+
+#username {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+
+#content {
+    width: 1200px;
+    height: 672px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+
+/*---MAIN---*/
+#main { 
+    font-size: 30px;
+}
+/*
+#chart_div {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    height: 300px;
+    width: 400px;
+}
+*/
+
+#defs + rect {
+    fill: transparent;
+}
+
+
+.food {
+    display: inline-block;
+    width: 400px;
+}
+
+p {
+    margin: 0;
+}
+
+.cat {
+    font-size: 30px;
+}
+
+/*SUMMARY*/
+#summaryTable th:first-of-type {
+    width: 150px;
+}
+
+
+/*CATEGORY & EXPENSE*/
+#infoactions {
+    margin-bottom: 20px;
+}
+
+#info, #actions {
+    display: inline-block;
+}
+
+#info {
+    padding-right: 25px;
+    border-right: 1px solid rgba(200,200,200,.3);
+    margin-right: 25px;
+}
+
+#info h1, #info h6 {
+    display: inline-block;
+    margin: 0;
+}
+#info h6 {
+    padding: 0 20px;
+    text-align: center;
+    color: rgb(150,150,150)
+}
+#info h6:last-of-type {
+    padding: 0 0 0 20px;
+}
+
+#info h6 span {
+    font-size: 20px;
+    display: block;
+}
+
+#filter > * {
+    background: 0;
+    border: 0;
+    color: white;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+#filter #sort {
+    width: 63px;
+}
+#filter #ascending {
+    width: 126px;
+    margin: 0 20px 10px;
+}
+
+
+/*EXPENSE*/
+#categoryName, #expenseName {
+    background: 0;
+    border: 0;
+    font-size: 2em;
+    font-weight: bold;
+    width: 110px;
+}
+
+#expenseEntryRemove {
+    width: 120px;
+}
+
+#mostFrequent {
+    float: right;
+    padding-right: 5px;
+}
+
+#expenseTable {
+    border-radius: 5px;
+    overflow: auto;
+}
+
+#expenseTable tr.selected {
+    background: rgb(47, 60, 74);
+}
+
+#expenseTable td {
+    padding: 10px;
+}
+
+.entryId {
+    display: none;
+}
+
+select, select option, #expenseInput, #expenseEntryForm input {
+    color: black;
+}
+
+#expenseEntryForm { 
+    border: 1px solid rgba(200,200,200,.5);
+    border-radius: 0 0 5px 5px;
+    height: 40px;
+    border-top: 0;
+}
+#expenseEntryForm.alone {
+    border-top: 1px solid rgba(200,200,200,.5);
+    border-radius: 5px;
+}
+
+#expenseEntryForm input {
+    padding-left: 5px;
+    background: 0;
+    border: 0;
+    color: white;
+    font-size: 20px;
+    line-height: 38px;
+}
+
+#expenseEntryForm input[type="submit"] {
+    float: right;
+    padding: 1px 20px;
+    border-left: 1px solid rgba(200,200,200,.5);
+    cursor: pointer;
+}
+
+#expenseEntryForm input[type="submit"]:hover {
+    opacity: .5;
+}
+
+/*TABLE*/
+#tableDiv { 
+    padding: 3px;
+    max-height: 533px;
+    overflow: auto;
+    border: 1px solid rgb(200,200,200);
+    background: rgb(240,240,240);
+}
+
+#tableDiv table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+th {
+    text-align: left;
+    padding-left: 10px;
+}
+
+#expenseTable th:nth-of-type(1) {
+    width: 200px;
+}
+#expenseTable th:nth-of-type(2) {
+    width: 100px;
+}
+#expenseTable th:nth-of-type(3) {
+    width: 200px;
+}
+
+th span {
+    font-size: 12px;
+    opacity: .8;
+}
+
+tr {
+    height: 30px;
+}
+
+tbody tr:hover {
+    background: rgb(37, 50, 64);
+}
+
+td {
+    padding: 10px;
+}
+
+table input {
+    border: 0;
+    background: transparent;
+    font-size: 16px;
+    text-align: inherit;
+}
+
+#tableDiv::-webkit-scrollbar {
+	width: 8px;
+	background-color: rgb(20,20,20);
+}
+#tableDiv::-webkit-scrollbar-thumb {
+	background-color: rgb(245, 245, 245);
+}

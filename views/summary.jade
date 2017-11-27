@@ -44,7 +44,8 @@ block content
                         -}
                         td=net
                     - }
-                    td=(val[0] / val[1]).toFixed(0)
+                    - nsAvg = (val[0] / val[1]).toFixed(0);
+                    td=isNaN(nsAvg) ? 0 : nsAvg
                 tr
                     - var balance = user.startingBalance;
                     td Ending balance
